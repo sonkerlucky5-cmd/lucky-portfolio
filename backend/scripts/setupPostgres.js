@@ -14,6 +14,23 @@ async function setupDatabase() {
   const password = process.env.PGPASSWORD || "";
   const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
 
+  const hasConfig = Boolean(
+    (connectionString && connectionString.trim() !== "") ||
+    (host && user && database && password && password.trim() !== "")
+  );
+
+  if (!hasConfig) {
+    console.log("=================================================");
+    console.log("ℹ️  PostgreSQL Configuration Required:");
+    console.log("Please set your PostgreSQL connection in backend/.env:");
+    console.log("Example Local:");
+    console.log("DATABASE_URL=postgresql://postgres:your_password@localhost:5432/portfolio_db");
+    console.log("Example Cloud (Neon / Supabase):");
+    console.log("DATABASE_URL=postgresql://user:pass@ep-host.us-east-2.aws.neon.tech/neondb?sslmode=require");
+    console.log("=================================================");
+    return;
+  }
+
   const config = connectionString
     ? {
         connectionString,

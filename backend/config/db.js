@@ -99,11 +99,15 @@ export const connectDB = async () => {
   const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
 
   // Determine if database configuration exists
-  const hasConfig = connectionString || (host && user && database);
+  const hasConfig = Boolean(
+    (connectionString && connectionString.trim() !== "") ||
+    (host && user && database && password && password.trim() !== "")
+  );
 
   if (!hasConfig) {
-    console.log("[PostgreSQL] No DATABASE_URL or PG* credentials specified in .env.");
-    console.log("[PostgreSQL] Running with local JSON store fallback (data/messages.json).");
+    console.log("[PostgreSQL] No active DATABASE_URL or password provided in .env.");
+    console.log("[PostgreSQL] Running with local JSON store (backend/data/projects.json & messages.json).");
+    console.log("[PostgreSQL] To connect live PostgreSQL, provide your connection string in backend/.env");
     return false;
   }
 

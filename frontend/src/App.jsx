@@ -82,17 +82,18 @@ const experience = [
 
 const projects = [
   {
-    title: "Full Stack E-Commerce App",
+    title: "Full Stack E-Commerce Application",
     type: "Full-stack build",
     preview: "ecommerce-app",
     accent: "#da5f36",
     description:
-      "A complete storefront with JWT authentication, product and cart APIs, and an order flow designed for real buyers.",
+      "A complete production storefront with JWT authentication, product and cart APIs, and an order flow designed for real buyers.",
     points: [
-      "12+ REST endpoints covering products, cart and orders",
-      "MongoDB schema handling 500+ products, with a 25% faster page load",
+      "Architected secure JWT authentication and 12+ REST API endpoints for products, cart, and orders",
+      "Modeled a high-performance MongoDB schema handling 500+ records, cutting page load times by 25%",
+      "Engineered responsive React.js UI with smooth state management and checkout integration",
     ],
-    stack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
+    stack: ["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"],
     code: "https://github.com/sonkerlucky5-cmd",
     live: "",
   },
@@ -104,26 +105,44 @@ const projects = [
     description:
       "Theme and checkout work for live storefronts — custom sections in Liquid, app integrations and mobile-first polish.",
     points: [
-      "Customised 3+ Shopify themes with Liquid, HTML, CSS and JavaScript",
-      "Configured 5+ third-party apps and reduced checkout friction points",
+      "Customised 3+ Shopify themes using Liquid, HTML, CSS, and modern JavaScript",
+      "Configured 5+ third-party Shopify apps to streamline conversion funnels",
+      "Optimized checkout flows and reduced mobile friction points to prevent cart abandonment",
     ],
     stack: ["Shopify", "Liquid", "HTML", "CSS", "JavaScript"],
     code: "https://github.com/sonkerlucky5-cmd",
     live: "",
   },
   {
-    title: "AI/ML Analytics Project",
+    title: "AI/ML Analytics Pipeline",
     type: "Data / ML",
     preview: "analytics-pipeline",
     accent: "#7c5cff",
     description:
-      "A Python pipeline that cleans and prepares messy records, then feeds them into a scikit-learn model for analysis.",
+      "High-throughput Python pipeline that cleans and prepares messy multi-source records, transforming them for scikit-learn statistical analysis and predictions.",
     points: [
-      "Automated cleaning and preprocessing for 5,000+ records",
-      "Cut manual processing time by roughly 40% using NumPy and Polars",
+      "Automated cleaning and preprocessing pipelines for 5,000+ complex records",
+      "Cut manual processing time by 40% utilizing accelerated vector operations in NumPy and Polars",
+      "Structured predictive analysis workflows with Pandas and Scikit-learn",
     ],
     stack: ["Python", "NumPy", "Pandas", "Polars", "Scikit-learn"],
     code: "https://github.com/sonkerlucky5-cmd",
+    live: "",
+  },
+  {
+    title: "Full-Stack Portfolio & Analytics Platform",
+    type: "Full-stack build",
+    preview: "portfolio-platform",
+    accent: "#0ea5e9",
+    description:
+      "Personal developer portfolio and visitor analytics engine built with React 19, Node.js, Express, and PostgreSQL with rate-limited inquiry channels.",
+    points: [
+      "Integrated PostgreSQL relational database with automatic table migrations and data seeding",
+      "Built interactive contact inquiry system with anti-spam rate limiting and automated email alerts",
+      "Tracked live visitor statistics and ATS resume downloads with sub-100ms API response times",
+    ],
+    stack: ["React 19", "Node.js", "Express.js", "PostgreSQL", "Framer Motion", "Tailwind CSS"],
+    code: "https://github.com/sonkerlucky5-cmd/Portfolio",
     live: "",
   },
 ];
@@ -447,16 +466,20 @@ const App = () => {
               </p>
               <ul className="credential-list">
                 <li>
-                  JPMorgan Chase — Software Engineering Simulation
-                  <span>Forage · 2025</span>
+                  JPMorgan Chase &amp; Co. — Software Engineering Job Simulation
+                  <span>Forage · Jun 2025</span>
                 </li>
                 <li>
-                  Deloitte — Technology, Data Analytics &amp; Cyber Simulations
-                  <span>Forage · 2025</span>
+                  Deloitte — Technology &amp; Data Analytics Simulations
+                  <span>Forage · Jun 2025</span>
+                </li>
+                <li>
+                  Deloitte — Cyber Security Job Simulation
+                  <span>Forage · Jun 2025</span>
                 </li>
                 <li>
                   Bootstrap Training — EduPyramids, SINE IIT Bombay
-                  <span>100% · 2025</span>
+                  <span>Score: 100% · Dec 2025</span>
                 </li>
               </ul>
             </MotionArticle>
