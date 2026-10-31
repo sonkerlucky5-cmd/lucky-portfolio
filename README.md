@@ -28,31 +28,24 @@ Personal full-stack developer portfolio of **Lucky Sonker** — built with **Rea
 Portfolio/
 ├── backend/
 │   ├── config/
-│   │   └── db.js               # PostgreSQL Pool connection & auto-table migration
+│   │   └── db.js               # PostgreSQL Pool connection & queries
 │   ├── controllers/
-│   │   ├── contactController.js # Handles contact form submissions & queries
-│   │   ├── projectController.js # Dynamic projects management
-│   │   ├── statsController.js   # Visitor & resume download analytics
-│   │   └── infoController.js    # Profile & experience info
+│   │   ├── contactController.js # Direct PostgreSQL queries for contact form
+│   │   ├── projectController.js # Direct PostgreSQL queries for projects
+│   │   ├── statsController.js   # Direct PostgreSQL queries for visitor analytics
+│   │   └── infoController.js    # Direct PostgreSQL queries for profile & skills
 │   ├── routes/
 │   │   ├── contactRoutes.js    # POST /api/contact, GET /api/contact, etc.
 │   │   ├── projectRoutes.js    # GET /api/projects, POST /api/projects
 │   │   ├── statsRoutes.js      # GET /api/stats, POST /api/stats/visit
 │   │   └── infoRoutes.js       # GET /api/info
-│   ├── data/
-│   │   ├── localStore.js       # Persistent local JSON store fallback
-│   │   ├── defaultProjects.json
-│   │   ├── defaultProfile.json
-│   │   ├── messages.json
-│   │   └── stats.json
 │   ├── middleware/
 │   │   ├── errorHandler.js
 │   │   └── rateLimiter.js
 │   ├── utils/
 │   │   └── emailService.js     # Nodemailer email notification service
 │   ├── scripts/
-│   │   ├── setupPostgres.js    # Standalone PostgreSQL table setup & seed script
-│   │   └── testLocal.js        # Backend unit test runner
+│   │   └── verifyDb.js         # Live PostgreSQL database verification script
 │   ├── server.js               # Express server entry point
 │   └── .env                    # Environment variables
 ├── frontend/                   # React + Vite application

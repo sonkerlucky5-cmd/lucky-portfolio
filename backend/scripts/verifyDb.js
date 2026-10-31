@@ -54,3 +54,4 @@ async function verifyDatabase() {
 }
 
 verifyDatabase();
+
