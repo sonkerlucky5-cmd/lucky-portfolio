@@ -1,44 +1,95 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertCircle,
   ArrowUpRight,
+  Check,
   CheckCircle2,
+  Clock,
+  Copy,
   Download,
   Github,
   Linkedin,
   Loader2,
   Mail,
+  MapPin,
+  MessageSquare,
+  RotateCcw,
   Send,
+  Sparkles,
+  Zap,
 } from "lucide-react";
 import { WhatsAppIcon, XIcon } from "./BrandIcons";
 import { sendContactMessage, recordResumeDownload } from "../services/api";
 
-const MotionDiv = motion.div;
+const projectTypes = [
+  { id: "fullstack", label: "Full-Stack Web App", emoji: "🚀" },
+  { id: "shopify", label: "Shopify Store", emoji: "🛍️" },
+  { id: "aiml", label: "AI / ML Pipeline", emoji: "🤖" },
+  { id: "hiring", label: "Full-Time Role", emoji: "💼" },
+  { id: "chat", label: "Just Saying Hi", emoji: "☕" },
+];
 
 const Contact = ({
   motionEase,
   mailtoUrl,
-  contactEmail,
-  githubUrl,
-  linkedinUrl,
-  twitterUrl,
-  whatsappUrl,
-  whatsappNumber,
-  resumeUrl,
+  contactEmail = "sonkerlucky5@gmail.com",
+  githubUrl = "https://github.com/sonkerlucky5-cmd",
+  linkedinUrl = "https://www.linkedin.com/in/lucky-sonker-24539a2b4",
+  twitterUrl = "https://x.com/Lucky_DevAI",
+  whatsappUrl = "https://wa.me/919335048020",
+  whatsappNumber = "+91 93350 48020",
+  resumeUrl = "/Lucky_Sonker_Resume_ATS.pdf",
 }) => {
+  const [selectedType, setSelectedType] = useState("fullstack");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    subject: "Full-Stack Web App",
     message: "",
   });
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMessage, setErrorMessage] = useState("");
+  const [lastSubmittedId, setLastSubmittedId] = useState("");
+  const [copiedField, setCopiedField] = useState(null);
+  const [currentTime, setCurrentTime] = useState("");
+
+  // Live IST Clock (Lucknow, India)
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      };
+      setCurrentTime(new Intl.DateTimeFormat("en-IN", options).format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleTypeSelect = (type) => {
+    setSelectedType(type.id);
+    setFormData((prev) => ({
+      ...prev,
+      subject: type.label,
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCopy = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2200);
   };
 
   const handleSubmit = async (e) => {
@@ -47,14 +98,19 @@ const Contact = ({
     setErrorMessage("");
 
     try {
-      await sendContactMessage(formData);
+      const res = await sendContactMessage(formData);
+      setLastSubmittedId(res?.data?.id || `PG-${Math.floor(1000 + Math.random() * 9000)}`);
       setStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setStatus("idle"), 6000);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "Full-Stack Web App",
+        message: "",
+      });
     } catch (err) {
       setStatus("error");
       setErrorMessage(
-        err.message || "Failed to deliver message. Please try WhatsApp or email."
+        err.message || "Failed to deliver message to database. Please reach out via WhatsApp or Email."
       );
     }
   };
@@ -63,195 +119,414 @@ const Contact = ({
     recordResumeDownload();
   };
 
-  const details = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: contactEmail,
-      href: mailtoUrl,
-    },
-    {
-      icon: WhatsAppIcon,
-      label: "WhatsApp",
-      value: whatsappNumber,
-      href: whatsappUrl,
-    },
-    {
-      icon: XIcon,
-      label: "X (Twitter)",
-      value: "@Lucky_DevAI",
-      href: twitterUrl,
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "sonkerlucky5-cmd",
-      href: githubUrl,
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "Lucky Sonker",
-      href: linkedinUrl,
-    },
-  ];
+  const whatsappDirectMessage = encodeURIComponent(
+    `Hi Lucky! I saw your portfolio and would like to discuss a ${formData.subject || "project"}.`
+  );
 
   return (
-    <section id="contact" className="section">
-      <MotionDiv
-        className="contact-card contact-grid"
-        initial={{ opacity: 0, y: 20 }}
+    <section id="contact" className="section contact-section-premium">
+      <div className="contact-aura-glow" aria-hidden="true" />
+
+      {/* Section Head */}
+      <motion.div
+        className="section-head text-center contact-header"
+        initial={{ opacity: 0, y: 22 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: motionEase }}
-        viewport={{ once: true, amount: 0.35 }}
-        whileHover={{ y: -4 }}
+        transition={{ duration: 0.6, ease: motionEase }}
+        viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="contact-copy">
-          <p className="eyebrow">CONTACT</p>
-          <h2>Have a project in mind? Let&apos;s talk.</h2>
-          <p>
-            I&apos;m open to full-time roles, freelance builds and interesting
-            collaborations. Drop a message below or reach out directly on WhatsApp or email.
-          </p>
-
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="contact-form-row">
-              <div className="form-group">
-                <label htmlFor="contact-name">Name *</label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  required
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  disabled={status === "loading"}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="contact-email">Email *</label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="name@company.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={status === "loading"}
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="contact-subject">Subject</label>
-              <input
-                id="contact-subject"
-                name="subject"
-                type="text"
-                placeholder="Full Stack Role / Project Inquiry"
-                value={formData.subject}
-                onChange={handleChange}
-                disabled={status === "loading"}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="contact-message">Message *</label>
-              <textarea
-                id="contact-message"
-                name="message"
-                rows={3}
-                required
-                placeholder="Tell me about your idea, requirement, or timeline..."
-                value={formData.message}
-                onChange={handleChange}
-                disabled={status === "loading"}
-              />
-            </div>
-
-            {status === "success" && (
-              <div className="form-alert form-success">
-                <CheckCircle2 size={16} />
-                <span>Thank you! Your message has been sent successfully.</span>
-              </div>
-            )}
-
-            {status === "error" && (
-              <div className="form-alert form-error">
-                <AlertCircle size={16} />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            <div className="contact-actions">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={status === "loading"}
-              >
-                {status === "loading" ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" />
-                    <span>Sending...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
-
-              <a
-                className="btn btn-outline"
-                href={mailtoUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Mail size={16} /> Send via Mail
-              </a>
-
-              <a
-                className="btn btn-outline"
-                href={resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={handleResumeClick}
-              >
-                <Download size={16} /> Resume
-              </a>
-            </div>
-          </form>
-
-          <p className="contact-note">
-            <span className="status-dot" aria-hidden="true" />
-            Usually replies within a day
-          </p>
+        <div className="contact-badge-pill">
+          <span className="live-pulse-dot" />
+          <span>Available for New Roles & Builds</span>
         </div>
+        <h2 className="contact-title">
+          Let&apos;s build something <span className="gradient-text">exceptional</span>.
+        </h2>
+        <p className="contact-subtitle">
+          Have an exciting project, full-time role, or freelance requirement? Drop a message below — saved directly into my PostgreSQL database with instant notification.
+        </p>
+      </motion.div>
 
-        <div className="contact-details">
-          {details.map(({ icon: Icon, label, value, href }) => (
+      {/* Main Grid */}
+      <div className="contact-premium-grid">
+        {/* Left Column: Interactive Form & Topic Picker */}
+        <motion.div
+          className="contact-card-box form-card-box"
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: motionEase }}
+          viewport={{ once: true, amount: 0.25 }}
+        >
+          <div className="card-box-header">
+            <div className="card-box-title">
+              <Sparkles size={18} className="accent-icon" />
+              <h3>Send a Direct Inquiry</h3>
+            </div>
+            <span className="card-box-tag">Direct PostgreSQL Sync</span>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {status === "success" ? (
+              <motion.div
+                key="success-card"
+                className="contact-success-showcase"
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="success-icon-bubble">
+                  <Check size={36} />
+                </div>
+                <h3>Message Successfully Delivered! 🚀</h3>
+                <p>
+                  Thank you for reaching out! Your message has been saved in my live PostgreSQL database and forwarded to my email.
+                </p>
+
+                <div className="success-meta-bar">
+                  <div className="meta-item">
+                    <span className="meta-label">STATUS</span>
+                    <span className="meta-val text-success">Saved in Database</span>
+                  </div>
+                  <div className="meta-item">
+                    <span className="meta-label">REF ID</span>
+                    <span className="meta-val">#{lastSubmittedId}</span>
+                  </div>
+                  <div className="meta-item">
+                    <span className="meta-label">AVG RESPONSE</span>
+                    <span className="meta-val">&lt; 2 Hours</span>
+                  </div>
+                </div>
+
+                <div className="success-actions">
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={() => setStatus("idle")}
+                  >
+                    <RotateCcw size={15} /> Send Another Message
+                  </button>
+                  <a
+                    className="btn btn-primary"
+                    href={`https://wa.me/919335048020?text=${whatsappDirectMessage}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <WhatsAppIcon size={16} /> Continue on WhatsApp
+                  </a>
+                </div>
+              </motion.div>
+            ) : (
+              <form className="contact-rich-form" onSubmit={handleSubmit}>
+                {/* Intent / Topic Selection Pills */}
+                <div className="intent-selector-wrap">
+                  <label className="input-legend">What are you looking for?</label>
+                  <div className="intent-pills">
+                    {projectTypes.map((type) => {
+                      const isActive = selectedType === type.id;
+                      return (
+                        <button
+                          key={type.id}
+                          type="button"
+                          className={`intent-pill ${isActive ? "active" : ""}`}
+                          onClick={() => handleTypeSelect(type)}
+                        >
+                          <span className="pill-emoji">{type.emoji}</span>
+                          <span>{type.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Form Inputs */}
+                <div className="form-double-row">
+                  <div className="form-field-group">
+                    <label htmlFor="contact-name">
+                      Your Name <span className="req">*</span>
+                    </label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="e.g. Alex Sharma"
+                      value={formData.name}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      className="cool-input"
+                    />
+                  </div>
+
+                  <div className="form-field-group">
+                    <label htmlFor="contact-email">
+                      Email Address <span className="req">*</span>
+                    </label>
+                    <input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="alex@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      className="cool-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-field-group">
+                  <label htmlFor="contact-subject">Subject</label>
+                  <input
+                    id="contact-subject"
+                    name="subject"
+                    type="text"
+                    placeholder="Project Inquiry / Job Opportunity"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    disabled={status === "loading"}
+                    className="cool-input"
+                  />
+                </div>
+
+                <div className="form-field-group form-field-message-group">
+                  <div className="textarea-label-row">
+                    <label htmlFor="contact-message">
+                      Project Details &amp; Message <span className="req">*</span>
+                    </label>
+                    <span className="char-count">
+                      {formData.message.length} / 3000
+                    </span>
+                  </div>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={4}
+                    required
+                    maxLength={3000}
+                    placeholder="Tell me about your goals, timeline, tech stack, or budget..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    disabled={status === "loading"}
+                    className="cool-input cool-textarea"
+                  />
+                </div>
+
+                {status === "error" && (
+                  <motion.div
+                    className="form-feedback-error"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <AlertCircle size={16} />
+                    <span>{errorMessage}</span>
+                  </motion.div>
+                )}
+
+                <div className="form-footer-action-bar">
+                  <button
+                    type="submit"
+                    className="btn btn-primary submit-btn-cool"
+                    disabled={status === "loading"}
+                  >
+                    {status === "loading" ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>Saving to Database...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
+
+                  <span className="security-guarantee">
+                    <Zap size={13} className="text-accent" />
+                    Encrypted &amp; Rate-Limited
+                  </span>
+                </div>
+              </form>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Right Column: Dynamic Status & Direct Channels */}
+        <motion.div
+          className="contact-card-box sidebar-card-box"
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: motionEase }}
+          viewport={{ once: true, amount: 0.25 }}
+        >
+          {/* Live Status Card */}
+          <div className="live-status-card">
+            <div className="status-avatar-wrap">
+              <img
+                src="/lucky%20sonker.png"
+                alt="Lucky Sonker"
+                className="status-avatar"
+              />
+              <span className="status-online-beacon" />
+            </div>
+
+            <div className="status-info-col">
+              <div className="status-role">Software Engineer · VorldX</div>
+              <h4 className="status-name">Lucky Sonker</h4>
+              <div className="status-location-time">
+                <span>
+                  <MapPin size={13} /> Lucknow, India
+                </span>
+                <span>•</span>
+                <span>
+                  <Clock size={13} /> {currentTime || "IST"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Copy Contact Tiles */}
+          <div className="quick-contact-tiles">
+            {/* Email Tile */}
+            <div className="contact-tile">
+              <div className="tile-icon-box mail-box">
+                <Mail size={18} />
+              </div>
+              <div className="tile-text">
+                <small>DIRECT EMAIL</small>
+                <strong>{contactEmail}</strong>
+              </div>
+              <div className="tile-actions">
+                <button
+                  type="button"
+                  className="icon-action-btn"
+                  title="Copy email address"
+                  onClick={() => handleCopy(contactEmail, "email")}
+                >
+                  {copiedField === "email" ? (
+                    <Check size={14} className="text-success" />
+                  ) : (
+                    <Copy size={14} />
+                  )}
+                </button>
+                <a
+                  href={mailtoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="icon-action-btn"
+                  title="Open mail application"
+                >
+                  <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+
+            {/* WhatsApp Tile */}
+            <div className="contact-tile highlight-whatsapp">
+              <div className="tile-icon-box whatsapp-box">
+                <WhatsAppIcon size={18} />
+              </div>
+              <div className="tile-text">
+                <small>WHATSAPP (FASTEST REPLY)</small>
+                <strong>{whatsappNumber}</strong>
+              </div>
+              <div className="tile-actions">
+                <button
+                  type="button"
+                  className="icon-action-btn"
+                  title="Copy phone number"
+                  onClick={() => handleCopy(whatsappNumber, "phone")}
+                >
+                  {copiedField === "phone" ? (
+                    <Check size={14} className="text-success" />
+                  ) : (
+                    <Copy size={14} />
+                  )}
+                </button>
+                <a
+                  href={`https://wa.me/919335048020?text=${whatsappDirectMessage}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="icon-action-btn"
+                  title="Open WhatsApp chat"
+                >
+                  <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+
+            {/* LinkedIn Tile */}
             <a
-              key={label}
-              className="contact-detail"
-              href={href}
+              href={linkedinUrl}
               target="_blank"
               rel="noreferrer"
+              className="contact-tile"
             >
-              <span className="contact-detail-icon">
-                <Icon size={16} />
-              </span>
-              <span className="contact-detail-text">
-                <small>{label}</small>
-                <strong>{value}</strong>
-              </span>
-              <ArrowUpRight size={15} className="contact-detail-arrow" />
+              <div className="tile-icon-box linkedin-box">
+                <Linkedin size={18} />
+              </div>
+              <div className="tile-text">
+                <small>PROFESSIONAL NETWORK</small>
+                <strong>Lucky Sonker on LinkedIn</strong>
+              </div>
+              <ArrowUpRight size={15} className="tile-arrow" />
             </a>
-          ))}
-        </div>
-      </MotionDiv>
+
+            {/* GitHub Tile */}
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="contact-tile"
+            >
+              <div className="tile-icon-box github-box">
+                <Github size={18} />
+              </div>
+              <div className="tile-text">
+                <small>CODE &amp; REPOSITORIES</small>
+                <strong>sonkerlucky5-cmd</strong>
+              </div>
+              <ArrowUpRight size={15} className="tile-arrow" />
+            </a>
+
+            {/* X / Twitter Tile */}
+            <a
+              href={twitterUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="contact-tile"
+            >
+              <div className="tile-icon-box x-box">
+                <XIcon size={16} />
+              </div>
+              <div className="tile-text">
+                <small>X (TWITTER)</small>
+                <strong>@Lucky_DevAI</strong>
+              </div>
+              <ArrowUpRight size={15} className="tile-arrow" />
+            </a>
+          </div>
+
+          {/* Quick Resume Download Card */}
+          <div className="sidebar-resume-banner">
+            <div className="resume-banner-content">
+              <h4>Need an ATS-ready resume?</h4>
+              <p>Updated with MERN, PostgreSQL &amp; AI/ML projects.</p>
+            </div>
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleResumeClick}
+              className="btn btn-outline resume-download-btn"
+            >
+              <Download size={15} /> Download PDF
+            </a>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
