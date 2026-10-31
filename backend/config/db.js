@@ -1,6 +1,9 @@
 import pg from "pg";
+import dotenv from "dotenv";
 import defaultProjects from "../data/defaultProjects.json" with { type: "json" };
 import defaultProfile from "../data/defaultProfile.json" with { type: "json" };
+
+dotenv.config();
 
 const { Pool } = pg;
 
