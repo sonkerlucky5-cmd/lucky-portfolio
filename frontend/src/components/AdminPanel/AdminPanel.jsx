@@ -937,3 +937,4 @@ const AdminPanel = ({ isOpen, onClose, onRefreshProjects, onRefreshProfile }) =>
 };
 
 export default AdminPanel;
+

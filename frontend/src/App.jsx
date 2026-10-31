@@ -252,24 +252,54 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [projectList, setProjectList] = useState(projects);
   const [experienceList, setExperienceList] = useState(experience);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  const refreshProjectsFromDb = () => {
+    getProjects().then((backendProjects) => {
+      if (backendProjects && backendProjects.length > 0) {
+        setProjectList(backendProjects);
+      }
+    });
+  };
+
+  const refreshProfileFromDb = () => {
+    getWebsiteContent().then((dbContent) => {
+      if (dbContent && dbContent.experience && dbContent.experience.length > 0) {
+        setExperienceList(dbContent.experience);
+      }
+    });
+  };
+
+  useEffect(() => {
+    // Check if directly navigating to /admin or #admin
+    if (
+      window.location.pathname === "/admin" ||
+      window.location.hash === "#admin"
+    ) {
+      setIsAdminOpen(true);
+    }
+
+    // Global shortcut: Ctrl + Shift + A to open Admin Panel
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
+        e.preventDefault();
+        setIsAdminOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     // Record visit on initial load
     recordVisit();
 
     // Dynamically load projects from PostgreSQL API
-    getProjects().then((backendProjects) => {
-      if (backendProjects && backendProjects.length > 0) {
-        setProjectList(backendProjects);
-      }
-    });
+    refreshProjectsFromDb();
 
     // Dynamically load full website content from PostgreSQL API
-    getWebsiteContent().then((dbContent) => {
-      if (dbContent && dbContent.experience && dbContent.experience.length > 0) {
-        setExperienceList(dbContent.experience);
-      }
-    });
+    refreshProfileFromDb();
   }, []);
 
   useEffect(() => {
@@ -599,6 +629,22 @@ const App = () => {
             twitterUrl={twitterUrl}
             whatsappUrl={whatsappUrl}
             mailtoUrl={mailtoUrl}
+            onOpenAdmin={() => setIsAdminOpen(true)}
+          />
+
+          <AdminPanel
+            isOpen={isAdminOpen}
+            onClose={() => {
+              setIsAdminOpen(false);
+              if (window.location.hash === "#admin") {
+                window.history.pushState(null, "", window.location.pathname);
+              }
+              if (window.location.pathname === "/admin") {
+                window.history.pushState(null, "", "/");
+              }
+            }}
+            onRefreshProjects={refreshProjectsFromDb}
+            onRefreshProfile={refreshProfileFromDb}
           />
         </div>
       )}

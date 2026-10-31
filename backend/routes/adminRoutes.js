@@ -41,3 +41,4 @@ router.delete("/messages/:id", deleteMessage);
 router.put("/profile", adminUpdateProfile);
 
 export default router;
+

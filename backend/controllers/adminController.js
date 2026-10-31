@@ -46,13 +46,13 @@ export const getAdminOverview = async (req, res, next) => {
         query("SELECT COUNT(*) FROM projects;"),
         query("SELECT COUNT(*) FROM contact_messages;"),
         query("SELECT COUNT(*) FROM contact_messages WHERE status = 'unread';"),
-        query("SELECT metric_key, metric_value FROM stats;"),
+        query("SELECT key, value FROM stats;"),
         query("SELECT name, title, email, phone, location FROM profile LIMIT 1;"),
       ]);
 
     const statsMap = {};
     statsRows.rows.forEach((row) => {
-      statsMap[row.metric_key] = row.metric_value;
+      statsMap[row.key] = row.value;
     });
 
     const recentMessages = await query(
@@ -72,8 +72,8 @@ export const getAdminOverview = async (req, res, next) => {
           totalProjects: parseInt(projectCount.rows[0].count, 10),
           totalMessages: parseInt(messagesCount.rows[0].count, 10),
           unreadMessages: parseInt(unreadCount.rows[0].count, 10),
-          totalVisits: statsMap.visits_count || 0,
-          resumeDownloads: statsMap.resume_downloads || 0,
+          totalVisits: statsMap.visits || 0,
+          resumeDownloads: statsMap.resumeDownloads || 0,
         },
         profile: profileRow.rows[0] || null,
         recentMessages: recentMessages.rows,
