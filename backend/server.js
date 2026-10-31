@@ -26,7 +26,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman)
       if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
         return callback(null, true);
       }
@@ -49,7 +48,7 @@ app.get("/api/health", (req, res) => {
     status: "healthy",
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    database: isDbConnected() ? "connected (MongoDB)" : "active (local store fallback)",
+    database: isDbConnected() ? "connected (PostgreSQL)" : "active (local store fallback)",
     environment: process.env.NODE_ENV || "development",
   });
 });
@@ -64,6 +63,7 @@ app.use("/api/info", infoRoutes);
 app.get("/", (req, res) => {
   res.json({
     message: "Portfolio API is running",
+    database: isDbConnected() ? "PostgreSQL" : "Local Store Fallback",
     endpoints: {
       health: "/api/health",
       contact: "/api/contact",
@@ -86,10 +86,10 @@ const startServer = async () => {
   app.listen(PORT, () => {
     console.log(`=========================================`);
     console.log(`🚀 Portfolio Backend running on http://localhost:${PORT}`);
+    console.log(`📡 Database: ${isDbConnected() ? "PostgreSQL Connected" : "Local JSON Fallback Active"}`);
     console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
     console.log(`=========================================`);
   });
 };
 
 startServer();
-

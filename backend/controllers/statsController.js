@@ -1,6 +1,4 @@
-import { Stat } from "../models/Stat.js";
-import { ContactMessage } from "../models/ContactMessage.js";
-import { isDbConnected } from "../config/db.js";
+import { query, isDbConnected } from "../config/db.js";
 import {
   getLocalStats,
   incrementLocalStat,
@@ -10,16 +8,20 @@ import {
 export const getStats = async (req, res, next) => {
   try {
     if (isDbConnected()) {
-      const visitsDoc = await Stat.findOne({ key: "visits" });
-      const resumeDoc = await Stat.findOne({ key: "resumeDownloads" });
-      const messageCount = await ContactMessage.countDocuments();
+      const statsRes = await query("SELECT key, value FROM stats;");
+      const countRes = await query("SELECT COUNT(*) FROM contact_messages;");
+
+      const statsMap = {};
+      statsRes.rows.forEach((row) => {
+        statsMap[row.key] = row.value;
+      });
 
       return res.status(200).json({
         success: true,
         data: {
-          visits: visitsDoc ? visitsDoc.value : 0,
-          resumeDownloads: resumeDoc ? resumeDoc.value : 0,
-          totalMessages: messageCount,
+          visits: statsMap.visits || 0,
+          resumeDownloads: statsMap.resumeDownloads || 0,
+          totalMessages: parseInt(countRes.rows[0].count, 10),
         },
       });
     }
@@ -42,12 +44,15 @@ export const getStats = async (req, res, next) => {
 export const recordVisit = async (req, res, next) => {
   try {
     if (isDbConnected()) {
-      const updated = await Stat.findOneAndUpdate(
-        { key: "visits" },
-        { $inc: { value: 1 }, lastUpdated: new Date() },
-        { upsert: true, new: true }
-      );
-      return res.status(200).json({ success: true, visits: updated.value });
+      const sql = `
+        INSERT INTO stats (key, value, last_updated)
+        VALUES ('visits', 1, CURRENT_TIMESTAMP)
+        ON CONFLICT (key)
+        DO UPDATE SET value = stats.value + 1, last_updated = CURRENT_TIMESTAMP
+        RETURNING value;
+      `;
+      const result = await query(sql);
+      return res.status(200).json({ success: true, visits: result.rows[0].value });
     }
 
     const updated = await incrementLocalStat("visits");
@@ -60,14 +65,17 @@ export const recordVisit = async (req, res, next) => {
 export const recordResumeDownload = async (req, res, next) => {
   try {
     if (isDbConnected()) {
-      const updated = await Stat.findOneAndUpdate(
-        { key: "resumeDownloads" },
-        { $inc: { value: 1 }, lastUpdated: new Date() },
-        { upsert: true, new: true }
-      );
+      const sql = `
+        INSERT INTO stats (key, value, last_updated)
+        VALUES ('resumeDownloads', 1, CURRENT_TIMESTAMP)
+        ON CONFLICT (key)
+        DO UPDATE SET value = stats.value + 1, last_updated = CURRENT_TIMESTAMP
+        RETURNING value;
+      `;
+      const result = await query(sql);
       return res
         .status(200)
-        .json({ success: true, resumeDownloads: updated.value });
+        .json({ success: true, resumeDownloads: result.rows[0].value });
     }
 
     const updated = await incrementLocalStat("resumeDownloads");
@@ -78,4 +86,3 @@ export const recordResumeDownload = async (req, res, next) => {
     next(error);
   }
 };
-

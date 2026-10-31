@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "db:setup": "node scripts/setupPostgres.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,10 +15,10 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "mongoose": "^8.9.5",
-    "nodemailer": "^6.9.16"
+    "nodemailer": "^6.9.16",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
   }
 }
-
