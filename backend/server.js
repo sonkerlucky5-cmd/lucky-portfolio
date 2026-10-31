@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB, isDbConnected } from "./config/db.js";
-import { initLocalStore } from "./data/localStore.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
@@ -48,7 +47,7 @@ app.get("/api/health", (req, res) => {
     status: "healthy",
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    database: isDbConnected() ? "connected (PostgreSQL)" : "active (local store fallback)",
+    database: isDbConnected() ? "connected (PostgreSQL)" : "disconnected",
     environment: process.env.NODE_ENV || "development",
   });
 });
@@ -62,8 +61,8 @@ app.use("/api/info", infoRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.json({
-    message: "Portfolio API is running",
-    database: isDbConnected() ? "PostgreSQL" : "Local Store Fallback",
+    message: "Portfolio API is running with PostgreSQL",
+    database: isDbConnected() ? "PostgreSQL Connected" : "Disconnected",
     endpoints: {
       health: "/api/health",
       contact: "/api/contact",
@@ -78,15 +77,14 @@ app.get("/", (req, res) => {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Initialize DB / local store and start server
+// Connect PostgreSQL and start server
 const startServer = async () => {
-  await initLocalStore();
   await connectDB();
 
   app.listen(PORT, () => {
     console.log(`=========================================`);
     console.log(`🚀 Portfolio Backend running on http://localhost:${PORT}`);
-    console.log(`📡 Database: ${isDbConnected() ? "PostgreSQL Connected" : "Local JSON Fallback Active"}`);
+    console.log(`📡 Database: ${isDbConnected() ? "PostgreSQL Connected" : "PostgreSQL Offline"}`);
     console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
     console.log(`=========================================`);
   });
