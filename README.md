@@ -97,39 +97,29 @@ When PostgreSQL connects, these tables are automatically created:
 
 ## 🚀 How to Run
 
-### **1. Configure PostgreSQL (`backend/.env`)**
-Add your local or cloud (Neon, Supabase, Render, Railway) PostgreSQL URL:
-```env
-# Full connection string
-DATABASE_URL=postgresql://postgres:your_password@localhost:5432/portfolio_db
-
-# Or individual parameters:
-PGHOST=localhost
-PGPORT=5432
-PGUSER=postgres
-PGPASSWORD=your_password
-PGDATABASE=portfolio_db
-```
-*(If left empty or if Postgres is offline, the backend will automatically use the built-in local JSON fallback).*
-
-### **2. Setup DB Tables (Optional Standalone Script)**
+### **Option A: Run Both Together (Single Terminal - Recommended)**
+From the project root:
 ```bash
-cd backend
-npm run db:setup
+npm run dev
 ```
+*(Starts both Backend on `http://localhost:5000` and Frontend on `http://localhost:5173` with color-coded logs!)*
 
-### **3. Start Backend**
+---
+
+### **Option B: Run in Separate Terminals**
+
+#### **Terminal 1 (Backend)**
 ```bash
 cd backend
 npm run dev
-# Server starts at http://localhost:5000
+# Server running at http://localhost:5000
 ```
 
-### **4. Start Frontend**
+#### **Terminal 2 (Frontend)**
 ```bash
 cd frontend
 npm run dev
-# Vite runs at http://localhost:5173
+# Website running at http://localhost:5173
 ```
 
 ---
