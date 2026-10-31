@@ -309,288 +309,288 @@ const App = () => {
 
           <Navbar navItems={navItems} theme={theme} onToggleTheme={toggleTheme} />
 
-      <main>
-        <Hero
-          typedText={typedText}
-          motionEase={motionEase}
-          githubUrl={githubUrl}
-          linkedinUrl={linkedinUrl}
-          twitterUrl={twitterUrl}
-          whatsappUrl={whatsappUrl}
-          mailtoUrl={mailtoUrl}
-          resumeUrl={resumeUrl}
-        />
+          <main>
+            <Hero
+              typedText={typedText}
+              motionEase={motionEase}
+              githubUrl={githubUrl}
+              linkedinUrl={linkedinUrl}
+              twitterUrl={twitterUrl}
+              whatsappUrl={whatsappUrl}
+              mailtoUrl={mailtoUrl}
+              resumeUrl={resumeUrl}
+            />
 
-        <section id="about" className="section">
-          <div className="about-intro">
-            <MotionDiv
-              className="section-head about-copy"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: motionEase }}
-              viewport={{ once: true, amount: 0.35 }}
-            >
-              <p className="eyebrow">ABOUT ME</p>
-              <h2>
-                A software engineer in Lucknow, building products that hold up in
-                production.
-              </h2>
-              <p className="about-lead">
-                I&apos;m Lucky Sonker, a Software Engineer at{" "}
-                <strong>VorldX Industries</strong>. My day is React and Node.js —
-                interfaces, REST APIs and MongoDB schemas — with Shopify builds and
-                Python analytics running alongside it.
-              </p>
-              <p>
-                I like the quietly important part of engineering: shaping the data
-                model, making an API predictable, and removing the small frictions
-                that make a product feel slow. Lately I&apos;m putting that same
-                attention into Python, Polars and machine learning.
-              </p>
-
-              <ul className="about-points">
-                <li>
-                  <Check size={15} aria-hidden="true" />
-                  <span>
-                    <strong>Full stack</strong> — React, Next.js, Node.js, Express
-                    and REST APIs
-                  </span>
-                </li>
-                <li>
-                  <Check size={15} aria-hidden="true" />
-                  <span>
-                    <strong>AI / ML</strong> — Python, NumPy, Pandas, Polars and
-                    Scikit-learn
-                  </span>
-                </li>
-                <li>
-                  <Check size={15} aria-hidden="true" />
-                  <span>
-                    <strong>E-commerce</strong> — Shopify themes, Liquid and app
-                    integrations
-                  </span>
-                </li>
-              </ul>
-
-              <div className="about-actions">
-                <a className="btn btn-primary" href="#contact">
-                  Work with me <ArrowRight size={16} />
-                </a>
-                <a
-                  className="btn btn-outline"
-                  href={resumeUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Download size={16} /> View resume
-                </a>
-              </div>
-            </MotionDiv>
-
-            <MotionDiv
-              className="about-photo-wrap"
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.65, ease: motionEase }}
-              viewport={{ once: true, amount: 0.25 }}
-            >
-              <figure className="about-photo">
-                <img src="/lucky%20sonker.png" alt="Lucky Sonker" loading="lazy" />
-                <figcaption>
-                  <span>SOFTWARE ENGINEER · VORLDX</span>
-                  <strong>Lucky Sonker</strong>
-                  <small>
-                    <MapPin size={12} aria-hidden="true" />
-                    Lucknow, India
-                  </small>
-                </figcaption>
-              </figure>
-            </MotionDiv>
-          </div>
-
-          <div className="about-grid">
-            {expertise.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <MotionArticle
-                  key={item.title}
-                  className="about-card"
+            <section id="about" className="section">
+              <div className="about-intro">
+                <MotionDiv
+                  className="section-head about-copy"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.08,
-                    ease: motionEase,
-                  }}
+                  transition={{ duration: 0.55, ease: motionEase }}
                   viewport={{ once: true, amount: 0.35 }}
-                  whileHover={{ y: -5 }}
                 >
-                  <div className="about-icon">
-                    <Icon size={20} />
+                  <p className="eyebrow">ABOUT ME</p>
+                  <h2>
+                    A software engineer in Lucknow, building products that hold up in
+                    production.
+                  </h2>
+                  <p className="about-lead">
+                    I&apos;m Lucky Sonker, a Software Engineer at{" "}
+                    <strong>VorldX Industries</strong>. My day is React and Node.js —
+                    interfaces, REST APIs and MongoDB schemas — with Shopify builds and
+                    Python analytics running alongside it.
+                  </p>
+                  <p>
+                    I like the quietly important part of engineering: shaping the data
+                    model, making an API predictable, and removing the small frictions
+                    that make a product feel slow. Lately I&apos;m putting that same
+                    attention into Python, Polars and machine learning.
+                  </p>
+
+                  <ul className="about-points">
+                    <li>
+                      <Check size={15} aria-hidden="true" />
+                      <span>
+                        <strong>Full stack</strong> — React, Next.js, Node.js, Express
+                        and REST APIs
+                      </span>
+                    </li>
+                    <li>
+                      <Check size={15} aria-hidden="true" />
+                      <span>
+                        <strong>AI / ML</strong> — Python, NumPy, Pandas, Polars and
+                        Scikit-learn
+                      </span>
+                    </li>
+                    <li>
+                      <Check size={15} aria-hidden="true" />
+                      <span>
+                        <strong>E-commerce</strong> — Shopify themes, Liquid and app
+                        integrations
+                      </span>
+                    </li>
+                  </ul>
+
+                  <div className="about-actions">
+                    <a className="btn btn-primary" href="#contact">
+                      Work with me <ArrowRight size={16} />
+                    </a>
+                    <a
+                      className="btn btn-outline"
+                      href={resumeUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <Download size={16} /> View resume
+                    </a>
                   </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </MotionArticle>
-              );
-            })}
-          </div>
-
-          <div className="about-credentials">
-            <MotionArticle
-              className="credential-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: motionEase }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <p className="credential-label">
-                <GraduationCap size={14} aria-hidden="true" />
-                EDUCATION
-              </p>
-              <h3>Bachelor of Computer Applications</h3>
-              <p>Maharishi University of Information Technology, Lucknow</p>
-              <span className="credential-meta">2023 — 2026</span>
-            </MotionArticle>
-
-            <MotionArticle
-              className="credential-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.08, ease: motionEase }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <p className="credential-label">
-                <BadgeCheck size={14} aria-hidden="true" />
-                CERTIFICATIONS
-              </p>
-              <ul className="credential-list">
-                <li>
-                  JPMorgan Chase &amp; Co. — Software Engineering Job Simulation
-                  <span>Forage · Jun 2025</span>
-                </li>
-                <li>
-                  Deloitte — Technology &amp; Data Analytics Simulations
-                  <span>Forage · Jun 2025</span>
-                </li>
-                <li>
-                  Deloitte — Cyber Security Job Simulation
-                  <span>Forage · Jun 2025</span>
-                </li>
-                <li>
-                  Bootstrap Training — EduPyramids, SINE IIT Bombay
-                  <span>Score: 100% · Dec 2025</span>
-                </li>
-              </ul>
-            </MotionArticle>
-          </div>
-        </section>
-
-        <Experience experience={experience} motionEase={motionEase} />
-
-        <section id="skills" className="section skills-section">
-          <MotionDiv
-            className="section-head"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: motionEase }}
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <p className="eyebrow">SKILLS</p>
-            <h2>Full-stack core. AI/ML and LLM tooling on top.</h2>
-            <p>
-              The tools behind the day job, plus the Python data stack and the
-              GenAI libraries I build with.
-            </p>
-          </MotionDiv>
-
-          <div className="skill-groups">
-            {skillGroups.map(({ Icon: GroupIcon, label, note, items }) => (
-              <div className="skill-group" key={label}>
-                <MotionDiv
-                  className="skill-group-head"
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: motionEase }}
-                  viewport={{ once: true, amount: 0.4 }}
-                >
-                  <h3>
-                    <GroupIcon size={16} aria-hidden="true" />
-                    {label}
-                  </h3>
-                  <span>{note}</span>
                 </MotionDiv>
 
                 <MotionDiv
-                  className="skill-cloud"
-                  variants={sectionStagger}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 0.2 }}
+                  className="about-photo-wrap"
+                  initial={{ opacity: 0, x: 24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.65, ease: motionEase }}
+                  viewport={{ once: true, amount: 0.25 }}
                 >
-                  {items.map(([skill, icon, source]) => (
-                    <MotionSpan
-                      key={skill}
-                      className={`tech-symbol tech-symbol-${skill.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-                      role="img"
-                      aria-label={skill}
-                      title={skill}
-                      variants={fadeUp}
-                      whileHover={{ y: -9, scale: 1.08, rotateX: 8, rotateY: -8 }}
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ type: "spring", stiffness: 320, damping: 18 }}
-                      style={{ transformPerspective: 700 }}
-                    >
-                      {icon === "rest" ? (
-                        <Network size={44} strokeWidth={1.8} aria-hidden="true" />
-                      ) : icon === "llm" ? (
-                        <Sparkles size={44} strokeWidth={1.7} aria-hidden="true" />
-                      ) : source === "sf" ? (
-                        <span
-                          className="tech-mask"
-                          style={{
-                            "--mask-url": `url("https://cdn.simpleicons.org/${icon}")`,
-                          }}
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <img
-                          src={`https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/${icon}/${icon}-original.svg`}
-                          alt=""
-                          loading="lazy"
-                          width="48"
-                          height="48"
-                        />
-                      )}
-                    </MotionSpan>
-                  ))}
+                  <figure className="about-photo">
+                    <img src="/lucky%20sonker.png" alt="Lucky Sonker" loading="lazy" />
+                    <figcaption>
+                      <span>SOFTWARE ENGINEER · VORLDX</span>
+                      <strong>Lucky Sonker</strong>
+                      <small>
+                        <MapPin size={12} aria-hidden="true" />
+                        Lucknow, India
+                      </small>
+                    </figcaption>
+                  </figure>
                 </MotionDiv>
               </div>
-            ))}
-          </div>
-        </section>
 
-        <Projects projects={projectList} motionEase={motionEase} />
-        <Contact
-          motionEase={motionEase}
-          mailtoUrl={mailtoUrl}
-          contactEmail={contactEmail}
-          githubUrl={githubUrl}
-          linkedinUrl={linkedinUrl}
-          twitterUrl={twitterUrl}
-          whatsappUrl={whatsappUrl}
-          whatsappNumber={whatsappNumber}
-          resumeUrl={resumeUrl}
-        />
-      </main>
+              <div className="about-grid">
+                {expertise.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <MotionArticle
+                      key={item.title}
+                      className="about-card"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: index * 0.08,
+                        ease: motionEase,
+                      }}
+                      viewport={{ once: true, amount: 0.35 }}
+                      whileHover={{ y: -5 }}
+                    >
+                      <div className="about-icon">
+                        <Icon size={20} />
+                      </div>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </MotionArticle>
+                  );
+                })}
+              </div>
 
-        <Footer
-          githubUrl={githubUrl}
-          linkedinUrl={linkedinUrl}
-          twitterUrl={twitterUrl}
-          whatsappUrl={whatsappUrl}
-          mailtoUrl={mailtoUrl}
-        />
+              <div className="about-credentials">
+                <MotionArticle
+                  className="credential-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: motionEase }}
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <p className="credential-label">
+                    <GraduationCap size={14} aria-hidden="true" />
+                    EDUCATION
+                  </p>
+                  <h3>Bachelor of Computer Applications</h3>
+                  <p>Maharishi University of Information Technology, Lucknow</p>
+                  <span className="credential-meta">2023 — 2026</span>
+                </MotionArticle>
+
+                <MotionArticle
+                  className="credential-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.08, ease: motionEase }}
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <p className="credential-label">
+                    <BadgeCheck size={14} aria-hidden="true" />
+                    CERTIFICATIONS
+                  </p>
+                  <ul className="credential-list">
+                    <li>
+                      JPMorgan Chase &amp; Co. — Software Engineering Job Simulation
+                      <span>Forage · Jun 2025</span>
+                    </li>
+                    <li>
+                      Deloitte — Technology &amp; Data Analytics Simulations
+                      <span>Forage · Jun 2025</span>
+                    </li>
+                    <li>
+                      Deloitte — Cyber Security Job Simulation
+                      <span>Forage · Jun 2025</span>
+                    </li>
+                    <li>
+                      Bootstrap Training — EduPyramids, SINE IIT Bombay
+                      <span>Score: 100% · Dec 2025</span>
+                    </li>
+                  </ul>
+                </MotionArticle>
+              </div>
+            </section>
+
+            <Experience experience={experience} motionEase={motionEase} />
+
+            <section id="skills" className="section skills-section">
+              <MotionDiv
+                className="section-head"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: motionEase }}
+                viewport={{ once: true, amount: 0.35 }}
+              >
+                <p className="eyebrow">SKILLS</p>
+                <h2>Full-stack core. AI/ML and LLM tooling on top.</h2>
+                <p>
+                  The tools behind the day job, plus the Python data stack and the
+                  GenAI libraries I build with.
+                </p>
+              </MotionDiv>
+
+              <div className="skill-groups">
+                {skillGroups.map(({ Icon: GroupIcon, label, note, items }) => (
+                  <div className="skill-group" key={label}>
+                    <MotionDiv
+                      className="skill-group-head"
+                      initial={{ opacity: 0, y: 14 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.45, ease: motionEase }}
+                      viewport={{ once: true, amount: 0.4 }}
+                    >
+                      <h3>
+                        <GroupIcon size={16} aria-hidden="true" />
+                        {label}
+                      </h3>
+                      <span>{note}</span>
+                    </MotionDiv>
+
+                    <MotionDiv
+                      className="skill-cloud"
+                      variants={sectionStagger}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, amount: 0.2 }}
+                    >
+                      {items.map(([skill, icon, source]) => (
+                        <MotionSpan
+                          key={skill}
+                          className={`tech-symbol tech-symbol-${skill.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                          role="img"
+                          aria-label={skill}
+                          title={skill}
+                          variants={fadeUp}
+                          whileHover={{ y: -9, scale: 1.08, rotateX: 8, rotateY: -8 }}
+                          whileTap={{ scale: 0.97 }}
+                          transition={{ type: "spring", stiffness: 320, damping: 18 }}
+                          style={{ transformPerspective: 700 }}
+                        >
+                          {icon === "rest" ? (
+                            <Network size={44} strokeWidth={1.8} aria-hidden="true" />
+                          ) : icon === "llm" ? (
+                            <Sparkles size={44} strokeWidth={1.7} aria-hidden="true" />
+                          ) : source === "sf" ? (
+                            <span
+                              className="tech-mask"
+                              style={{
+                                "--mask-url": `url("https://cdn.simpleicons.org/${icon}")`,
+                              }}
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <img
+                              src={`https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/${icon}/${icon}-original.svg`}
+                              alt=""
+                              loading="lazy"
+                              width="48"
+                              height="48"
+                            />
+                          )}
+                        </MotionSpan>
+                      ))}
+                    </MotionDiv>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <Projects projects={projectList} motionEase={motionEase} />
+            <Contact
+              motionEase={motionEase}
+              mailtoUrl={mailtoUrl}
+              contactEmail={contactEmail}
+              githubUrl={githubUrl}
+              linkedinUrl={linkedinUrl}
+              twitterUrl={twitterUrl}
+              whatsappUrl={whatsappUrl}
+              whatsappNumber={whatsappNumber}
+              resumeUrl={resumeUrl}
+            />
+          </main>
+
+          <Footer
+            githubUrl={githubUrl}
+            linkedinUrl={linkedinUrl}
+            twitterUrl={twitterUrl}
+            whatsappUrl={whatsappUrl}
+            mailtoUrl={mailtoUrl}
+          />
         </div>
       )}
     </>
