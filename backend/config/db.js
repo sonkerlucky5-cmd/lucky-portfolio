@@ -1,5 +1,6 @@
 import pg from "pg";
 import defaultProjects from "../data/defaultProjects.json" with { type: "json" };
+import defaultProfile from "../data/defaultProfile.json" with { type: "json" };
 
 const { Pool } = pg;
 
@@ -17,19 +18,54 @@ export const query = async (text, params) => {
   return pool.query(text, params);
 };
 
-// Initialize PostgreSQL tables
+// Initialize PostgreSQL tables and seed JSON data
 const initTables = async () => {
   const createTablesQuery = `
-    CREATE TABLE IF NOT EXISTS contact_messages (
+    CREATE TABLE IF NOT EXISTS profile (
       id SERIAL PRIMARY KEY,
       name VARCHAR(100) NOT NULL,
+      title VARCHAR(150) NOT NULL,
+      company VARCHAR(150),
+      location VARCHAR(150),
       email VARCHAR(255) NOT NULL,
-      subject VARCHAR(200) DEFAULT 'Portfolio Inquiry',
-      message TEXT NOT NULL,
-      status VARCHAR(20) DEFAULT 'unread',
-      ip_address VARCHAR(100) DEFAULT '',
+      phone VARCHAR(50),
+      whatsapp VARCHAR(255),
+      github VARCHAR(255),
+      linkedin VARCHAR(255),
+      twitter VARCHAR(255),
+      summary TEXT,
+      education JSONB,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS experience (
+      id SERIAL PRIMARY KEY,
+      role VARCHAR(150) NOT NULL,
+      company VARCHAR(200) NOT NULL,
+      period VARCHAR(100) NOT NULL,
+      status VARCHAR(50) DEFAULT 'past',
+      summary TEXT,
+      points TEXT[] DEFAULT '{}',
+      order_index INTEGER DEFAULT 0,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS skills (
+      id SERIAL PRIMARY KEY,
+      category_key VARCHAR(100) NOT NULL UNIQUE,
+      category_name VARCHAR(100) NOT NULL,
+      items TEXT[] NOT NULL,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS certifications (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      issuer VARCHAR(150) NOT NULL,
+      year VARCHAR(50),
+      score VARCHAR(50),
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS projects (
@@ -53,18 +89,102 @@ const initTables = async () => {
       value INTEGER DEFAULT 0,
       last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS contact_messages (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      subject VARCHAR(200) DEFAULT 'Portfolio Inquiry',
+      message TEXT NOT NULL,
+      status VARCHAR(20) DEFAULT 'unread',
+      ip_address VARCHAR(100) DEFAULT '',
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
   `;
 
   await pool.query(createTablesQuery);
 
-  // Seed default projects if table is empty
-  const countResult = await pool.query("SELECT COUNT(*) FROM projects;");
-  if (parseInt(countResult.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding initial projects into database...");
+  // 1. Seed Profile if empty
+  const profileCount = await pool.query("SELECT COUNT(*) FROM profile;");
+  if (parseInt(profileCount.rows[0].count, 10) === 0) {
+    console.log("[PostgreSQL] Seeding profile JSON data into database...");
+    await pool.query(
+      `INSERT INTO profile (name, title, company, location, email, phone, whatsapp, github, linkedin, twitter, summary, education)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
+      [
+        defaultProfile.name,
+        defaultProfile.title,
+        defaultProfile.company,
+        defaultProfile.location,
+        defaultProfile.email,
+        defaultProfile.phone,
+        defaultProfile.whatsapp,
+        defaultProfile.github,
+        defaultProfile.linkedin,
+        defaultProfile.twitter,
+        defaultProfile.summary,
+        JSON.stringify(defaultProfile.education),
+      ]
+    );
+  }
+
+  // 2. Seed Experience if empty
+  const expCount = await pool.query("SELECT COUNT(*) FROM experience;");
+  if (parseInt(expCount.rows[0].count, 10) === 0) {
+    console.log("[PostgreSQL] Seeding experience JSON data into database...");
+    for (let i = 0; i < defaultProfile.experience.length; i++) {
+      const exp = defaultProfile.experience[i];
+      await pool.query(
+        `INSERT INTO experience (role, company, period, status, summary, points, order_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7);`,
+        [exp.role, exp.company, exp.period, exp.status, exp.summary, exp.points, i]
+      );
+    }
+  }
+
+  // 3. Seed Skills if empty
+  const skillCount = await pool.query("SELECT COUNT(*) FROM skills;");
+  if (parseInt(skillCount.rows[0].count, 10) === 0) {
+    console.log("[PostgreSQL] Seeding skills JSON data into database...");
+    const skillCategoryNames = {
+      programmingLanguages: "Programming Languages",
+      frameworksAndLibraries: "Frameworks & Libraries",
+      databasesAndORMs: "Databases & ORMs",
+      ecommerce: "E-Commerce",
+      aiAndML: "AI / Machine Learning",
+      toolsAndPlatforms: "Tools & Platforms",
+    };
+    for (const [key, items] of Object.entries(defaultProfile.skills)) {
+      await pool.query(
+        `INSERT INTO skills (category_key, category_name, items)
+         VALUES ($1, $2, $3) ON CONFLICT (category_key) DO NOTHING;`,
+        [key, skillCategoryNames[key] || key, items]
+      );
+    }
+  }
+
+  // 4. Seed Certifications if empty
+  const certCount = await pool.query("SELECT COUNT(*) FROM certifications;");
+  if (parseInt(certCount.rows[0].count, 10) === 0) {
+    console.log("[PostgreSQL] Seeding certifications JSON data into database...");
+    for (const cert of defaultProfile.certifications) {
+      await pool.query(
+        `INSERT INTO certifications (title, issuer, year, score)
+         VALUES ($1, $2, $3, $4);`,
+        [cert.title, cert.issuer, cert.year, cert.score || null]
+      );
+    }
+  }
+
+  // 5. Seed Projects if empty
+  const projCount = await pool.query("SELECT COUNT(*) FROM projects;");
+  if (parseInt(projCount.rows[0].count, 10) === 0) {
+    console.log("[PostgreSQL] Seeding projects JSON data into database...");
     for (const proj of defaultProjects) {
       await pool.query(
         `INSERT INTO projects (title, type, preview, accent, description, points, stack, code, live, featured)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
         [
           proj.title,
           proj.type,
@@ -81,13 +201,13 @@ const initTables = async () => {
     }
   }
 
-  // Seed initial stats if not existing
+  // 6. Seed Stats if not existing
   await pool.query(`
     INSERT INTO stats (key, value) VALUES ('visits', 0) ON CONFLICT (key) DO NOTHING;
     INSERT INTO stats (key, value) VALUES ('resumeDownloads', 0) ON CONFLICT (key) DO NOTHING;
   `);
 
-  console.log("[PostgreSQL] Tables verified and ready (contact_messages, projects, stats).");
+  console.log("[PostgreSQL] All 7 tables verified and all JSON data seeded in PostgreSQL.");
 };
 
 export const connectDB = async () => {
@@ -98,7 +218,6 @@ export const connectDB = async () => {
   const password = process.env.PGPASSWORD;
   const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
 
-  // Determine if database configuration exists
   const hasConfig = Boolean(
     (connectionString && connectionString.trim() !== "") ||
     (host && user && database && password && password.trim() !== "")
@@ -113,7 +232,11 @@ export const connectDB = async () => {
 
   try {
     const isCloudDb =
-      (connectionString && (connectionString.includes("neon.tech") || connectionString.includes("supabase") || connectionString.includes("render") || connectionString.includes("sslmode=require"))) ||
+      (connectionString &&
+        (connectionString.includes("neon.tech") ||
+          connectionString.includes("supabase") ||
+          connectionString.includes("render") ||
+          connectionString.includes("sslmode=require"))) ||
       process.env.PGSSL === "true";
 
     const config = connectionString
@@ -139,7 +262,7 @@ export const connectDB = async () => {
     isConnected = true;
     console.log(`[PostgreSQL] Connected successfully to database at ${res.rows[0].current_time}`);
 
-    // Auto-create tables
+    // Auto-create tables & seed all data
     await initTables();
     return true;
   } catch (error) {

@@ -67,31 +67,34 @@ Portfolio/
 
 ## 🐘 PostgreSQL Tables Schema
 
-When PostgreSQL connects, these tables are automatically created:
+When PostgreSQL connects (or when running `npm run db:migrate`), all 7 tables are created and all JSON data is migrated to PostgreSQL:
 
-1. **`contact_messages`**:
-   - `id` (SERIAL PRIMARY KEY)
-   - `name` (VARCHAR(100))
-   - `email` (VARCHAR(255))
-   - `subject` (VARCHAR(200))
-   - `message` (TEXT)
-   - `status` (VARCHAR(20) DEFAULT 'unread')
-   - `ip_address` (VARCHAR(100))
-   - `created_at` (TIMESTAMP WITH TIME ZONE)
-   - `updated_at` (TIMESTAMP WITH TIME ZONE)
+1. **`profile`**:
+   - `id`, `name`, `title`, `company`, `location`, `email`, `phone`, `whatsapp`, `github`, `linkedin`, `twitter`, `summary`, `education` (JSONB)
+2. **`experience`**:
+   - `id`, `role`, `company`, `period`, `status`, `summary`, `points` (TEXT[]), `order_index`
+3. **`skills`**:
+   - `id`, `category_key`, `category_name`, `items` (TEXT[])
+4. **`certifications`**:
+   - `id`, `title`, `issuer`, `year`, `score`
+5. **`projects`**:
+   - `id`, `title`, `type`, `preview`, `accent`, `description`, `points` (TEXT[]), `stack` (TEXT[]), `code`, `live`, `featured`
+6. **`stats`**:
+   - `key`, `value`, `last_updated`
+7. **`contact_messages`**:
+   - `id`, `name`, `email`, `subject`, `message`, `status`, `ip_address`, `created_at`, `updated_at`
 
-2. **`projects`**:
-   - `id` (SERIAL PRIMARY KEY)
-   - `title`, `type`, `preview`, `accent`, `description`
-   - `points` (TEXT[])
-   - `stack` (TEXT[])
-   - `code`, `live`, `featured`
-   - `created_at`, `updated_at`
+---
 
-3. **`stats`**:
-   - `key` (VARCHAR(50) PRIMARY KEY)
-   - `value` (INTEGER)
-   - `last_updated` (TIMESTAMP WITH TIME ZONE)
+## 💾 Migrate All JSON Data to PostgreSQL
+
+To migrate/seed all JSON data into PostgreSQL at any time:
+```bash
+cd backend
+npm run db:migrate
+# or
+npm run db:seed
+```
 
 ---
 

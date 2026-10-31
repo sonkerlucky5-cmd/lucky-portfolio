@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "db:setup": "node scripts/setupPostgres.js"
+    "db:setup": "node scripts/setupPostgres.js",
+    "db:migrate": "node scripts/migrateAllJsonToPostgres.js",
+    "db:seed": "node scripts/migrateAllJsonToPostgres.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
