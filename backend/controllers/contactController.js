@@ -1,10 +1,4 @@
-import { query, isDbConnected } from "../config/db.js";
-import {
-  saveLocalMessage,
-  getLocalMessages,
-  markLocalMessageRead,
-  deleteLocalMessage,
-} from "../data/localStore.js";
+import { query } from "../config/db.js";
 import { sendNotificationEmail } from "../utils/emailService.js";
 
 export const submitContactMessage = async (req, res, next) => {
@@ -37,27 +31,21 @@ export const submitContactMessage = async (req, res, next) => {
       ipAddress,
     };
 
-    let savedMessage;
+    const sql = `
+      INSERT INTO contact_messages (name, email, subject, message, ip_address)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, name, email, subject, message, status, created_at AS "createdAt";
+    `;
+    const result = await query(sql, [
+      payload.name,
+      payload.email,
+      payload.subject,
+      payload.message,
+      payload.ipAddress,
+    ]);
+    const savedMessage = result.rows[0];
 
-    if (isDbConnected()) {
-      const sql = `
-        INSERT INTO contact_messages (name, email, subject, message, ip_address)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING id, name, email, subject, message, status, created_at AS "createdAt";
-      `;
-      const result = await query(sql, [
-        payload.name,
-        payload.email,
-        payload.subject,
-        payload.message,
-        payload.ipAddress,
-      ]);
-      savedMessage = result.rows[0];
-    } else {
-      savedMessage = await saveLocalMessage(payload);
-    }
-
-    // Send async email notification (won't block user response)
+    // Send async email notification
     sendNotificationEmail(payload).catch((err) =>
       console.warn("Async email failed:", err.message)
     );
@@ -66,7 +54,7 @@ export const submitContactMessage = async (req, res, next) => {
       success: true,
       message: "Thank you for reaching out! Your message has been received.",
       data: {
-        id: savedMessage.id || savedMessage._id,
+        id: savedMessage.id,
         name: savedMessage.name,
         createdAt: savedMessage.createdAt,
       },
@@ -78,24 +66,18 @@ export const submitContactMessage = async (req, res, next) => {
 
 export const getContactMessages = async (req, res, next) => {
   try {
-    let messages;
-    if (isDbConnected()) {
-      const sql = `
-        SELECT id, name, email, subject, message, status, ip_address AS "ipAddress",
-               created_at AS "createdAt", updated_at AS "updatedAt"
-        FROM contact_messages
-        ORDER BY created_at DESC;
-      `;
-      const result = await query(sql);
-      messages = result.rows;
-    } else {
-      messages = await getLocalMessages();
-    }
+    const sql = `
+      SELECT id, name, email, subject, message, status, ip_address AS "ipAddress",
+             created_at AS "createdAt", updated_at AS "updatedAt"
+      FROM contact_messages
+      ORDER BY created_at DESC;
+    `;
+    const result = await query(sql);
 
     res.status(200).json({
       success: true,
-      count: messages.length,
-      data: messages,
+      count: result.rows.length,
+      data: result.rows,
     });
   } catch (error) {
     next(error);
@@ -106,29 +88,19 @@ export const markMessageRead = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (isDbConnected()) {
-      const sql = `
-        UPDATE contact_messages
-        SET status = 'read', updated_at = CURRENT_TIMESTAMP
-        WHERE id = $1
-        RETURNING id, name, email, subject, message, status, created_at AS "createdAt", updated_at AS "updatedAt";
-      `;
-      const result = await query(sql, [id]);
-      if (result.rows.length === 0) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Message not found" });
-      }
-      return res.status(200).json({ success: true, data: result.rows[0] });
-    } else {
-      const msg = await markLocalMessageRead(id);
-      if (!msg) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Message not found" });
-      }
-      return res.status(200).json({ success: true, data: msg });
+    const sql = `
+      UPDATE contact_messages
+      SET status = 'read', updated_at = CURRENT_TIMESTAMP
+      WHERE id = $1
+      RETURNING id, name, email, subject, message, status, created_at AS "createdAt", updated_at AS "updatedAt";
+    `;
+    const result = await query(sql, [id]);
+    if (result.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Message not found" });
     }
+    return res.status(200).json({ success: true, data: result.rows[0] });
   } catch (error) {
     next(error);
   }
@@ -138,28 +110,16 @@ export const deleteMessage = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (isDbConnected()) {
-      const sql = `DELETE FROM contact_messages WHERE id = $1 RETURNING id;`;
-      const result = await query(sql, [id]);
-      if (result.rows.length === 0) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Message not found" });
-      }
+    const sql = `DELETE FROM contact_messages WHERE id = $1 RETURNING id;`;
+    const result = await query(sql, [id]);
+    if (result.rows.length === 0) {
       return res
-        .status(200)
-        .json({ success: true, message: "Message deleted successfully" });
-    } else {
-      const deleted = await deleteLocalMessage(id);
-      if (!deleted) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Message not found" });
-      }
-      return res
-        .status(200)
-        .json({ success: true, message: "Message deleted successfully" });
+        .status(404)
+        .json({ success: false, message: "Message not found" });
     }
+    return res
+      .status(200)
+      .json({ success: true, message: "Message deleted successfully" });
   } catch (error) {
     next(error);
   }

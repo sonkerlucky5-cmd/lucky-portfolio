@@ -24,7 +24,7 @@ import Navbar from "./components/Navbar";
 import Preloader from "./components/Preloader";
 import Projects from "./components/Projects";
 import ScrollProgress from "./components/ScrollProgress";
-import { getProjects, recordVisit } from "./services/api";
+import { getProjects, getWebsiteContent, recordVisit } from "./services/api";
 
 const navItems = ["Home", "About", "Experience", "Skills", "Projects", "Contact"];
 
@@ -250,15 +250,23 @@ const App = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [projectList, setProjectList] = useState(projects);
+  const [experienceList, setExperienceList] = useState(experience);
 
   useEffect(() => {
     // Record visit on initial load
     recordVisit();
 
-    // Dynamically load projects from backend API
+    // Dynamically load projects from PostgreSQL API
     getProjects().then((backendProjects) => {
       if (backendProjects && backendProjects.length > 0) {
         setProjectList(backendProjects);
+      }
+    });
+
+    // Dynamically load full website content from PostgreSQL API
+    getWebsiteContent().then((dbContent) => {
+      if (dbContent && dbContent.experience && dbContent.experience.length > 0) {
+        setExperienceList(dbContent.experience);
       }
     });
   }, []);
@@ -486,7 +494,7 @@ const App = () => {
               </div>
             </section>
 
-            <Experience experience={experience} motionEase={motionEase} />
+            <Experience experience={experienceList} motionEase={motionEase} />
 
             <section id="skills" className="section skills-section">
               <MotionDiv

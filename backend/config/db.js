@@ -1,7 +1,7 @@
 import pg from "pg";
 import dotenv from "dotenv";
+import defaultContent from "../data/defaultContent.json" with { type: "json" };
 import defaultProjects from "../data/defaultProjects.json" with { type: "json" };
-import defaultProfile from "../data/defaultProfile.json" with { type: "json" };
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ export const query = async (text, params) => {
   return pool.query(text, params);
 };
 
-// Initialize PostgreSQL tables and seed JSON data
+// Initialize PostgreSQL tables and seed data if empty
 const initTables = async () => {
   const createTablesQuery = `
     CREATE TABLE IF NOT EXISTS profile (
@@ -32,14 +32,28 @@ const initTables = async () => {
       location VARCHAR(150),
       email VARCHAR(255) NOT NULL,
       phone VARCHAR(50),
-      whatsapp VARCHAR(255),
-      github VARCHAR(255),
-      linkedin VARCHAR(255),
-      twitter VARCHAR(255),
-      summary TEXT,
+      whatsapp_url VARCHAR(255),
+      github_url VARCHAR(255),
+      linkedin_url VARCHAR(255),
+      twitter_url VARCHAR(255),
+      resume_url VARCHAR(255),
+      typing_lines TEXT[] DEFAULT '{}',
+      about_heading TEXT,
+      about_lead TEXT,
+      about_story TEXT,
+      about_points TEXT[] DEFAULT '{}',
       education JSONB,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS expertise (
+      id SERIAL PRIMARY KEY,
+      icon VARCHAR(50) NOT NULL,
+      title VARCHAR(100) NOT NULL,
+      text TEXT NOT NULL,
+      order_index INTEGER DEFAULT 0,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS experience (
@@ -54,11 +68,13 @@ const initTables = async () => {
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS skills (
+    CREATE TABLE IF NOT EXISTS skill_groups (
       id SERIAL PRIMARY KEY,
-      category_key VARCHAR(100) NOT NULL UNIQUE,
-      category_name VARCHAR(100) NOT NULL,
-      items TEXT[] NOT NULL,
+      icon VARCHAR(50) NOT NULL,
+      label VARCHAR(100) NOT NULL,
+      note VARCHAR(255),
+      items JSONB NOT NULL,
+      order_index INTEGER DEFAULT 0,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -66,8 +82,8 @@ const initTables = async () => {
       id SERIAL PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
       issuer VARCHAR(150) NOT NULL,
-      year VARCHAR(50),
-      score VARCHAR(50),
+      year VARCHAR(100),
+      order_index INTEGER DEFAULT 0,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -83,6 +99,7 @@ const initTables = async () => {
       code TEXT DEFAULT '',
       live TEXT DEFAULT '',
       featured BOOLEAN DEFAULT true,
+      order_index INTEGER DEFAULT 0,
       created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
@@ -111,33 +128,53 @@ const initTables = async () => {
   // 1. Seed Profile if empty
   const profileCount = await pool.query("SELECT COUNT(*) FROM profile;");
   if (parseInt(profileCount.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding profile JSON data into database...");
+    console.log("[PostgreSQL] Seeding profile into database...");
+    const p = defaultContent.profile;
     await pool.query(
-      `INSERT INTO profile (name, title, company, location, email, phone, whatsapp, github, linkedin, twitter, summary, education)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
+      `INSERT INTO profile (
+        name, title, company, location, email, phone, whatsapp_url,
+        github_url, linkedin_url, twitter_url, resume_url, typing_lines,
+        about_heading, about_lead, about_story, about_points, education
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17);`,
       [
-        defaultProfile.name,
-        defaultProfile.title,
-        defaultProfile.company,
-        defaultProfile.location,
-        defaultProfile.email,
-        defaultProfile.phone,
-        defaultProfile.whatsapp,
-        defaultProfile.github,
-        defaultProfile.linkedin,
-        defaultProfile.twitter,
-        defaultProfile.summary,
-        JSON.stringify(defaultProfile.education),
+        p.name,
+        p.title,
+        p.company,
+        p.location,
+        p.email,
+        p.phone,
+        p.whatsappUrl,
+        p.githubUrl,
+        p.linkedinUrl,
+        p.twitterUrl,
+        p.resumeUrl,
+        p.typingLines,
+        p.aboutHeading,
+        p.aboutLead,
+        p.aboutStory,
+        p.aboutPoints,
+        JSON.stringify(p.education),
       ]
     );
   }
 
-  // 2. Seed Experience if empty
-  const expCount = await pool.query("SELECT COUNT(*) FROM experience;");
+  // 2. Seed Expertise if empty
+  const expCount = await pool.query("SELECT COUNT(*) FROM expertise;");
   if (parseInt(expCount.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding experience JSON data into database...");
-    for (let i = 0; i < defaultProfile.experience.length; i++) {
-      const exp = defaultProfile.experience[i];
+    for (let i = 0; i < defaultContent.expertise.length; i++) {
+      const exp = defaultContent.expertise[i];
+      await pool.query(
+        `INSERT INTO expertise (icon, title, text, order_index) VALUES ($1, $2, $3, $4);`,
+        [exp.icon, exp.title, exp.text, i]
+      );
+    }
+  }
+
+  // 3. Seed Experience if empty
+  const experienceCount = await pool.query("SELECT COUNT(*) FROM experience;");
+  if (parseInt(experienceCount.rows[0].count, 10) === 0) {
+    for (let i = 0; i < defaultContent.experience.length; i++) {
+      const exp = defaultContent.experience[i];
       await pool.query(
         `INSERT INTO experience (role, company, period, status, summary, points, order_index)
          VALUES ($1, $2, $3, $4, $5, $6, $7);`,
@@ -146,48 +183,40 @@ const initTables = async () => {
     }
   }
 
-  // 3. Seed Skills if empty
-  const skillCount = await pool.query("SELECT COUNT(*) FROM skills;");
+  // 4. Seed Skill Groups if empty
+  const skillCount = await pool.query("SELECT COUNT(*) FROM skill_groups;");
   if (parseInt(skillCount.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding skills JSON data into database...");
-    const skillCategoryNames = {
-      programmingLanguages: "Programming Languages",
-      frameworksAndLibraries: "Frameworks & Libraries",
-      databasesAndORMs: "Databases & ORMs",
-      ecommerce: "E-Commerce",
-      aiAndML: "AI / Machine Learning",
-      toolsAndPlatforms: "Tools & Platforms",
-    };
-    for (const [key, items] of Object.entries(defaultProfile.skills)) {
+    for (let i = 0; i < defaultContent.skillGroups.length; i++) {
+      const group = defaultContent.skillGroups[i];
       await pool.query(
-        `INSERT INTO skills (category_key, category_name, items)
-         VALUES ($1, $2, $3) ON CONFLICT (category_key) DO NOTHING;`,
-        [key, skillCategoryNames[key] || key, items]
+        `INSERT INTO skill_groups (icon, label, note, items, order_index)
+         VALUES ($1, $2, $3, $4, $5);`,
+        [group.icon, group.label, group.note, JSON.stringify(group.items), i]
       );
     }
   }
 
-  // 4. Seed Certifications if empty
+  // 5. Seed Certifications if empty
   const certCount = await pool.query("SELECT COUNT(*) FROM certifications;");
   if (parseInt(certCount.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding certifications JSON data into database...");
-    for (const cert of defaultProfile.certifications) {
+    for (let i = 0; i < defaultContent.certifications.length; i++) {
+      const cert = defaultContent.certifications[i];
       await pool.query(
-        `INSERT INTO certifications (title, issuer, year, score)
+        `INSERT INTO certifications (title, issuer, year, order_index)
          VALUES ($1, $2, $3, $4);`,
-        [cert.title, cert.issuer, cert.year, cert.score || null]
+        [cert.title, cert.issuer, cert.year, i]
       );
     }
   }
 
-  // 5. Seed Projects if empty
+  // 6. Seed Projects if empty
   const projCount = await pool.query("SELECT COUNT(*) FROM projects;");
   if (parseInt(projCount.rows[0].count, 10) === 0) {
-    console.log("[PostgreSQL] Seeding projects JSON data into database...");
-    for (const proj of defaultProjects) {
+    for (let i = 0; i < defaultContent.projects.length; i++) {
+      const proj = defaultContent.projects[i];
       await pool.query(
-        `INSERT INTO projects (title, type, preview, accent, description, points, stack, code, live, featured)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
+        `INSERT INTO projects (title, type, preview, accent, description, points, stack, code, live, featured, order_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
         [
           proj.title,
           proj.type,
@@ -199,18 +228,19 @@ const initTables = async () => {
           proj.code,
           proj.live,
           proj.featured ?? true,
+          i,
         ]
       );
     }
   }
 
-  // 6. Seed Stats if not existing
+  // 7. Seed Stats if not existing
   await pool.query(`
     INSERT INTO stats (key, value) VALUES ('visits', 0) ON CONFLICT (key) DO NOTHING;
     INSERT INTO stats (key, value) VALUES ('resumeDownloads', 0) ON CONFLICT (key) DO NOTHING;
   `);
 
-  console.log("[PostgreSQL] All 7 tables verified and all JSON data seeded in PostgreSQL.");
+  console.log("[PostgreSQL] All 7 tables verified and 100% of website data live in PostgreSQL.");
 };
 
 export const connectDB = async () => {
@@ -265,7 +295,7 @@ export const connectDB = async () => {
     isConnected = true;
     console.log(`[PostgreSQL] Connected successfully to database at ${res.rows[0].current_time}`);
 
-    // Auto-create tables & seed all data
+    // Auto-create tables & seed data
     await initTables();
     return true;
   } catch (error) {

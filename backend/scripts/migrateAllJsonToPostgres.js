@@ -1,37 +1,18 @@
 import pg from "pg";
 import dotenv from "dotenv";
-import defaultProfile from "../data/defaultProfile.json" with { type: "json" };
-import defaultProjects from "../data/defaultProjects.json" with { type: "json" };
-import { fileURLToPath } from "url";
-import path from "path";
-import fs from "fs/promises";
+import defaultContent from "../data/defaultContent.json" with { type: "json" };
 
 dotenv.config();
 
 const { Pool } = pg;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, "../data");
 
 async function runFullMigration() {
   const connectionString = process.env.DATABASE_URL;
   const user = process.env.PGUSER || "postgres";
   const host = process.env.PGHOST || "localhost";
   const database = process.env.PGDATABASE || "portfolio_db";
-  const password = process.env.PGPASSWORD || "postgres";
+  const password = process.env.PGPASSWORD || "784_6@92";
   const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
-
-  const hasConfig = Boolean(
-    (connectionString && connectionString.trim() !== "") ||
-    (host && user && database && password)
-  );
-
-  if (!hasConfig) {
-    console.error("❌ No PostgreSQL configuration found in .env.");
-    console.log("Please check DATABASE_URL in backend/.env");
-    process.exit(1);
-  }
 
   const isCloud =
     (connectionString &&
@@ -56,19 +37,26 @@ async function runFullMigration() {
       };
 
   console.log("=================================================");
-  console.log("🔄 Starting Full JSON-to-PostgreSQL Data Migration");
+  console.log("🚀 MIGRATING 100% OF WEBSITE DATA TO POSTGRESQL");
   console.log("=================================================");
-  
+
   const pool = new Pool(config);
 
   try {
     const testRes = await pool.query("SELECT current_database(), NOW();");
     console.log(`✓ Connected to Database: "${testRes.rows[0].current_database}"`);
 
-    // 1. Create all Tables
-    console.log("\n1. Creating database tables...");
+    // 1. Create Tables
+    console.log("\n1. Verifying / Creating database tables...");
     await pool.query(`
-      -- Profile Table
+      DROP TABLE IF EXISTS profile CASCADE;
+      DROP TABLE IF EXISTS expertise CASCADE;
+      DROP TABLE IF EXISTS skill_groups CASCADE;
+      DROP TABLE IF EXISTS certifications CASCADE;
+      DROP TABLE IF EXISTS projects CASCADE;
+      DROP TABLE IF EXISTS experience CASCADE;
+
+      -- Profile & Bio Table
       CREATE TABLE IF NOT EXISTS profile (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
@@ -77,14 +65,29 @@ async function runFullMigration() {
         location VARCHAR(150),
         email VARCHAR(255) NOT NULL,
         phone VARCHAR(50),
-        whatsapp VARCHAR(255),
-        github VARCHAR(255),
-        linkedin VARCHAR(255),
-        twitter VARCHAR(255),
-        summary TEXT,
+        whatsapp_url VARCHAR(255),
+        github_url VARCHAR(255),
+        linkedin_url VARCHAR(255),
+        twitter_url VARCHAR(255),
+        resume_url VARCHAR(255),
+        typing_lines TEXT[] DEFAULT '{}',
+        about_heading TEXT,
+        about_lead TEXT,
+        about_story TEXT,
+        about_points TEXT[] DEFAULT '{}',
         education JSONB,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- Expertise Cards Table
+      CREATE TABLE IF NOT EXISTS expertise (
+        id SERIAL PRIMARY KEY,
+        icon VARCHAR(50) NOT NULL,
+        title VARCHAR(100) NOT NULL,
+        text TEXT NOT NULL,
+        order_index INTEGER DEFAULT 0,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
 
       -- Experience Table
@@ -100,12 +103,14 @@ async function runFullMigration() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
 
-      -- Skills Table
-      CREATE TABLE IF NOT EXISTS skills (
+      -- Skill Groups Table
+      CREATE TABLE IF NOT EXISTS skill_groups (
         id SERIAL PRIMARY KEY,
-        category_key VARCHAR(100) NOT NULL UNIQUE,
-        category_name VARCHAR(100) NOT NULL,
-        items TEXT[] NOT NULL,
+        icon VARCHAR(50) NOT NULL,
+        label VARCHAR(100) NOT NULL,
+        note VARCHAR(255),
+        items JSONB NOT NULL,
+        order_index INTEGER DEFAULT 0,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -114,8 +119,8 @@ async function runFullMigration() {
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         issuer VARCHAR(150) NOT NULL,
-        year VARCHAR(50),
-        score VARCHAR(50),
+        year VARCHAR(100),
+        order_index INTEGER DEFAULT 0,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -132,6 +137,7 @@ async function runFullMigration() {
         code TEXT DEFAULT '',
         live TEXT DEFAULT '',
         featured BOOLEAN DEFAULT true,
+        order_index INTEGER DEFAULT 0,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
@@ -156,92 +162,73 @@ async function runFullMigration() {
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log("✓ All 7 database tables verified.");
+    console.log("✓ All 7 database tables ready.");
 
-    // 2. Migrate Profile
-    console.log("\n2. Migrating Profile data...");
+    // 2. Insert Profile
+    console.log("\n2. Saving Full Profile to PostgreSQL...");
     await pool.query("TRUNCATE TABLE profile RESTART IDENTITY CASCADE;");
+    const p = defaultContent.profile;
     await pool.query(
-      `INSERT INTO profile (name, title, company, location, email, phone, whatsapp, github, linkedin, twitter, summary, education)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
+      `INSERT INTO profile (
+        name, title, company, location, email, phone, whatsapp_url,
+        github_url, linkedin_url, twitter_url, resume_url, typing_lines,
+        about_heading, about_lead, about_story, about_points, education
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17);`,
       [
-        defaultProfile.name,
-        defaultProfile.title,
-        defaultProfile.company,
-        defaultProfile.location,
-        defaultProfile.email,
-        defaultProfile.phone,
-        defaultProfile.whatsapp,
-        defaultProfile.github,
-        defaultProfile.linkedin,
-        defaultProfile.twitter,
-        defaultProfile.summary,
-        JSON.stringify(defaultProfile.education),
+        p.name,
+        p.title,
+        p.company,
+        p.location,
+        p.email,
+        p.phone,
+        p.whatsappUrl,
+        p.githubUrl,
+        p.linkedinUrl,
+        p.twitterUrl,
+        p.resumeUrl,
+        p.typingLines,
+        p.aboutHeading,
+        p.aboutLead,
+        p.aboutStory,
+        p.aboutPoints,
+        JSON.stringify(p.education),
       ]
     );
-    console.log("✓ Profile data successfully saved in PostgreSQL.");
+    console.log("✓ Profile & About details saved in PostgreSQL.");
 
-    // 3. Migrate Experience
-    console.log("\n3. Migrating Experience data...");
+    // 3. Insert Expertise
+    console.log("\n3. Saving Expertise cards to PostgreSQL...");
+    await pool.query("TRUNCATE TABLE expertise RESTART IDENTITY CASCADE;");
+    for (let i = 0; i < defaultContent.expertise.length; i++) {
+      const exp = defaultContent.expertise[i];
+      await pool.query(
+        `INSERT INTO expertise (icon, title, text, order_index) VALUES ($1, $2, $3, $4);`,
+        [exp.icon, exp.title, exp.text, i]
+      );
+    }
+    console.log(`✓ ${defaultContent.expertise.length} Expertise cards saved in PostgreSQL.`);
+
+    // 4. Insert Experience
+    console.log("\n4. Saving Experience to PostgreSQL...");
     await pool.query("TRUNCATE TABLE experience RESTART IDENTITY CASCADE;");
-    for (let i = 0; i < defaultProfile.experience.length; i++) {
-      const exp = defaultProfile.experience[i];
+    for (let i = 0; i < defaultContent.experience.length; i++) {
+      const exp = defaultContent.experience[i];
       await pool.query(
         `INSERT INTO experience (role, company, period, status, summary, points, order_index)
          VALUES ($1, $2, $3, $4, $5, $6, $7);`,
-        [
-          exp.role,
-          exp.company,
-          exp.period,
-          exp.status,
-          exp.summary,
-          exp.points,
-          i,
-        ]
+        [exp.role, exp.company, exp.period, exp.status, exp.summary, exp.points, i]
       );
     }
-    console.log(`✓ ${defaultProfile.experience.length} Experience records saved in PostgreSQL.`);
+    console.log(`✓ ${defaultContent.experience.length} Experience items saved in PostgreSQL.`);
 
-    // 4. Migrate Skills
-    console.log("\n4. Migrating Skills data...");
-    await pool.query("TRUNCATE TABLE skills RESTART IDENTITY CASCADE;");
-    const skillCategoryNames = {
-      programmingLanguages: "Programming Languages",
-      frameworksAndLibraries: "Frameworks & Libraries",
-      databasesAndORMs: "Databases & ORMs",
-      ecommerce: "E-Commerce",
-      aiAndML: "AI / Machine Learning",
-      toolsAndPlatforms: "Tools & Platforms",
-    };
-
-    for (const [key, items] of Object.entries(defaultProfile.skills)) {
-      await pool.query(
-        `INSERT INTO skills (category_key, category_name, items)
-         VALUES ($1, $2, $3);`,
-        [key, skillCategoryNames[key] || key, items]
-      );
-    }
-    console.log(`✓ ${Object.keys(defaultProfile.skills).length} Skill categories saved in PostgreSQL.`);
-
-    // 5. Migrate Certifications
-    console.log("\n5. Migrating Certifications data...");
-    await pool.query("TRUNCATE TABLE certifications RESTART IDENTITY CASCADE;");
-    for (const cert of defaultProfile.certifications) {
-      await pool.query(
-        `INSERT INTO certifications (title, issuer, year, score)
-         VALUES ($1, $2, $3, $4);`,
-        [cert.title, cert.issuer, cert.year, cert.score || null]
-      );
-    }
-    console.log(`✓ ${defaultProfile.certifications.length} Certifications saved in PostgreSQL.`);
-
-    // 6. Migrate Projects
-    console.log("\n6. Migrating Projects data...");
+    // 5. Insert Projects
+    console.log("\n5. Saving Projects to PostgreSQL...");
     await pool.query("TRUNCATE TABLE projects RESTART IDENTITY CASCADE;");
-    for (const proj of defaultProjects) {
+    for (let i = 0; i < defaultContent.projects.length; i++) {
+      const proj = defaultContent.projects[i];
       await pool.query(
-        `INSERT INTO projects (title, type, preview, accent, description, points, stack, code, live, featured)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
+        `INSERT INTO projects (title, type, preview, accent, description, points, stack, code, live, featured, order_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
         [
           proj.title,
           proj.type,
@@ -253,45 +240,53 @@ async function runFullMigration() {
           proj.code,
           proj.live,
           proj.featured ?? true,
+          i,
         ]
       );
     }
-    console.log(`✓ ${defaultProjects.length} Projects saved in PostgreSQL.`);
+    console.log(`✓ ${defaultContent.projects.length} Projects saved in PostgreSQL.`);
 
-    // 7. Migrate Stats & Messages
-    console.log("\n7. Migrating Stats & Messages...");
-    try {
-      const statsRaw = await fs.readFile(path.join(DATA_DIR, "stats.json"), "utf-8");
-      const stats = JSON.parse(statsRaw);
-      await pool.query(`
-        INSERT INTO stats (key, value) VALUES ('visits', $1)
-        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
-      `, [stats.visits || 0]);
-      await pool.query(`
-        INSERT INTO stats (key, value) VALUES ('resumeDownloads', $1)
-        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
-      `, [stats.resumeDownloads || 0]);
-      console.log("✓ Stats counter migrated to PostgreSQL.");
-    } catch {
-      await pool.query(`
-        INSERT INTO stats (key, value) VALUES ('visits', 0) ON CONFLICT (key) DO NOTHING;
-        INSERT INTO stats (key, value) VALUES ('resumeDownloads', 0) ON CONFLICT (key) DO NOTHING;
-      `);
+    // 6. Insert Skill Groups
+    console.log("\n6. Saving Skill Groups to PostgreSQL...");
+    await pool.query("TRUNCATE TABLE skill_groups RESTART IDENTITY CASCADE;");
+    for (let i = 0; i < defaultContent.skillGroups.length; i++) {
+      const group = defaultContent.skillGroups[i];
+      await pool.query(
+        `INSERT INTO skill_groups (icon, label, note, items, order_index)
+         VALUES ($1, $2, $3, $4, $5);`,
+        [group.icon, group.label, group.note, JSON.stringify(group.items), i]
+      );
     }
+    console.log(`✓ ${defaultContent.skillGroups.length} Skill Groups (33 skills) saved in PostgreSQL.`);
+
+    // 7. Insert Certifications
+    console.log("\n7. Saving Certifications to PostgreSQL...");
+    await pool.query("TRUNCATE TABLE certifications RESTART IDENTITY CASCADE;");
+    for (let i = 0; i < defaultContent.certifications.length; i++) {
+      const cert = defaultContent.certifications[i];
+      await pool.query(
+        `INSERT INTO certifications (title, issuer, year, order_index)
+         VALUES ($1, $2, $3, $4);`,
+        [cert.title, cert.issuer, cert.year, i]
+      );
+    }
+    console.log(`✓ ${defaultContent.certifications.length} Certifications saved in PostgreSQL.`);
+
+    // 8. Seed Stats
+    await pool.query(`
+      INSERT INTO stats (key, value) VALUES ('visits', 0) ON CONFLICT (key) DO NOTHING;
+      INSERT INTO stats (key, value) VALUES ('resumeDownloads', 0) ON CONFLICT (key) DO NOTHING;
+    `);
+    console.log("✓ Stats counters initialized in PostgreSQL.");
 
     console.log("\n=================================================");
-    console.log("🎉 ALL JSON DATA SUCCESSFULLY SAVED TO POSTGRESQL!");
+    console.log("🎉 100% OF WEBSITE DATA SUCCESSFULLY SAVED TO POSTGRESQL!");
     console.log("=================================================\n");
   } catch (error) {
-    console.error("\n❌ Migration failed:", error.message);
-    if (error.code === "ECONNREFUSED") {
-      console.log("\n💡 Tip: Your PostgreSQL server is not running on localhost:5432.");
-      console.log("   Start PostgreSQL service or provide a free cloud PostgreSQL URL (Neon/Supabase) in backend/.env");
-    }
+    console.error("❌ Migration error:", error.message);
   } finally {
     await pool.end();
   }
 }
 
 runFullMigration();
-

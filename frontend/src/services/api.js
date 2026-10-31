@@ -74,3 +74,18 @@ export const getStats = async () => {
   }
 };
 
+
+/**
+ * Fetch 100% of website content (profile, expertise, experience, skills, certifications) from Database
+ */
+export const getWebsiteContent = async () => {
+  try {
+    const res = await fetch(`${API_BASE}/api/info`);
+    if (!res.ok) throw new Error("Could not fetch website content");
+    const data = await res.json();
+    return data.data || null;
+  } catch (error) {
+    console.warn("Backend content API unreachable, using local fallback:", error.message);
+    return null;
+  }
+};

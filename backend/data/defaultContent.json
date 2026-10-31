@@ -1,0 +1,226 @@
+{
+  "profile": {
+    "name": "Lucky Sonker",
+    "title": "Software Engineer",
+    "company": "VorldX Industries Pvt. Ltd.",
+    "location": "Lucknow, India",
+    "email": "sonkerlucky5@gmail.com",
+    "phone": "+91 93350 48020",
+    "whatsappUrl": "https://wa.me/919335048020",
+    "githubUrl": "https://github.com/sonkerlucky5-cmd",
+    "linkedinUrl": "https://www.linkedin.com/in/lucky-sonker-24539a2b4",
+    "twitterUrl": "https://x.com/Lucky_DevAI",
+    "resumeUrl": "/Lucky_Sonker_Resume_ATS.pdf",
+    "typingLines": [
+      "React interfaces that feel smooth.",
+      "Node APIs built for real products.",
+      "Python models behind clean UIs."
+    ],
+    "aboutHeading": "A software engineer in Lucknow, building products that hold up in production.",
+    "aboutLead": "I'm Lucky Sonker, a Software Engineer at VorldX Industries. My day is React and Node.js — interfaces, REST APIs and MongoDB schemas — with Shopify builds and Python analytics running alongside it.",
+    "aboutStory": "I like the quietly important part of engineering: shaping the data model, making an API predictable, and removing the small frictions that make a product feel slow. Lately I'm putting that same attention into Python, Polars and machine learning.",
+    "aboutPoints": [
+      "Full stack — React, Next.js, Node.js, Express and REST APIs",
+      "AI / ML — Python, NumPy, Pandas, Polars and Scikit-learn",
+      "E-commerce — Shopify themes, Liquid and app integrations"
+    ],
+    "education": {
+      "degree": "Bachelor of Computer Applications",
+      "institution": "Maharishi University of Information Technology, Lucknow",
+      "period": "2023 — 2026"
+    }
+  },
+  "expertise": [
+    {
+      "icon": "Code2",
+      "title": "Full Stack",
+      "text": "React, Next.js, Node.js, Express and REST APIs shipped to production."
+    },
+    {
+      "icon": "BrainCircuit",
+      "title": "AI / ML",
+      "text": "Python, NumPy, Pandas, Polars and Scikit-learn on real datasets."
+    },
+    {
+      "icon": "ShoppingBag",
+      "title": "E-commerce",
+      "text": "Shopify themes, Liquid customisation and third-party app integration."
+    },
+    {
+      "icon": "Server",
+      "title": "Currently",
+      "text": "Software Engineer at VorldX Industries, Lucknow."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer",
+      "company": "VorldX Industries Pvt. Ltd. · Lucknow",
+      "period": "Jun 2026 — Present",
+      "status": "current",
+      "summary": "Building responsive, scalable web applications with the MERN stack, from data model to interface.",
+      "points": [
+        "Develop and maintain production features in React.js, Node.js, Express.js and MongoDB.",
+        "Build RESTful APIs and model MongoDB data for efficient reads and writes.",
+        "Work with the team on new features, performance tuning and bug fixes, with Git-based code reviews."
+      ]
+    },
+    {
+      "role": "Full Stack Developer Intern",
+      "company": "Infoseek Training · Hybrid",
+      "period": "2025",
+      "status": "past",
+      "summary": "A three-month intensive MERN programme, delivered as production-style modules.",
+      "points": [
+        "Shipped 4+ full-stack modules covering frontend, backend and database integration.",
+        "Engineered 10+ reusable React components, cutting frontend work on new features by roughly 30%.",
+        "Designed and tested 15+ REST endpoints in Node.js and Express, backed by MongoDB CRUD."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Full Stack E-Commerce Application",
+      "type": "Full-stack build",
+      "preview": "ecommerce-app",
+      "accent": "#da5f36",
+      "description": "A complete production storefront with JWT authentication, product and cart APIs, and an order flow designed for real buyers.",
+      "points": [
+        "Architected secure JWT authentication and 12+ REST API endpoints for products, cart, and orders",
+        "Modeled a high-performance MongoDB schema handling 500+ records, cutting page load times by 25%",
+        "Engineered responsive React.js UI with smooth state management and checkout integration"
+      ],
+      "stack": ["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"],
+      "code": "https://github.com/sonkerlucky5-cmd",
+      "live": "",
+      "featured": true
+    },
+    {
+      "title": "Shopify Store Customization",
+      "type": "E-commerce",
+      "preview": "shopify-store",
+      "accent": "#95bf47",
+      "description": "Theme and checkout work for live storefronts — custom sections in Liquid, app integrations and mobile-first polish.",
+      "points": [
+        "Customised 3+ Shopify themes using Liquid, HTML, CSS, and modern JavaScript",
+        "Configured 5+ third-party Shopify apps to streamline conversion funnels",
+        "Optimized checkout flows and reduced mobile friction points to prevent cart abandonment"
+      ],
+      "stack": ["Shopify", "Liquid", "HTML", "CSS", "JavaScript"],
+      "code": "https://github.com/sonkerlucky5-cmd",
+      "live": "",
+      "featured": true
+    },
+    {
+      "title": "AI/ML Analytics Pipeline",
+      "type": "Data / ML",
+      "preview": "analytics-pipeline",
+      "accent": "#7c5cff",
+      "description": "High-throughput Python pipeline that cleans and prepares messy multi-source records, transforming them for scikit-learn statistical analysis and predictions.",
+      "points": [
+        "Automated cleaning and preprocessing pipelines for 5,000+ complex records",
+        "Cut manual processing time by 40% utilizing accelerated vector operations in NumPy and Polars",
+        "Structured predictive analysis workflows with Pandas and Scikit-learn"
+      ],
+      "stack": ["Python", "NumPy", "Pandas", "Polars", "Scikit-learn"],
+      "code": "https://github.com/sonkerlucky5-cmd",
+      "live": "",
+      "featured": true
+    },
+    {
+      "title": "Full-Stack Portfolio & Analytics Platform",
+      "type": "Full-stack build",
+      "preview": "portfolio-platform",
+      "accent": "#0ea5e9",
+      "description": "Personal developer portfolio and visitor analytics engine built with React 19, Node.js, Express, and PostgreSQL with rate-limited inquiry channels.",
+      "points": [
+        "Integrated PostgreSQL relational database with automatic table migrations and data seeding",
+        "Built interactive contact inquiry system with anti-spam rate limiting and automated email alerts",
+        "Tracked live visitor statistics and ATS resume downloads with sub-100ms API response times"
+      ],
+      "stack": ["React 19", "Node.js", "Express.js", "PostgreSQL", "Framer Motion", "Tailwind CSS"],
+      "code": "https://github.com/sonkerlucky5-cmd/Portfolio",
+      "live": "",
+      "featured": true
+    }
+  ],
+  "skillGroups": [
+    {
+      "icon": "Code2",
+      "label": "Full Stack",
+      "note": "Interfaces, APIs and data",
+      "items": [
+        ["HTML5", "html5"],
+        ["CSS3", "css3"],
+        ["JavaScript", "javascript"],
+        ["React", "react"],
+        ["Next.js", "nextjs"],
+        ["Node.js", "nodejs"],
+        ["Express", "express"],
+        ["MongoDB", "mongodb"],
+        ["PostgreSQL", "postgresql"],
+        ["MySQL", "mysql"],
+        ["REST APIs", "rest"],
+        ["Shopify", "shopify", "sf"],
+        ["Git", "git"],
+        ["Vite", "vite"],
+        ["Framer Motion", "framermotion"]
+      ]
+    },
+    {
+      "icon": "Database",
+      "label": "Data & ML",
+      "note": "Python, data and model tooling",
+      "items": [
+        ["Python", "python"],
+        ["NumPy", "numpy"],
+        ["Pandas", "pandas"],
+        ["Polars", "polars", "sf"],
+        ["Matplotlib", "matplotlib"],
+        ["Plotly", "plotly"],
+        ["Scikit-learn", "scikitlearn"],
+        ["SciPy", "scipy", "sf"],
+        ["TensorFlow", "tensorflow"],
+        ["PyTorch", "pytorch"],
+        ["Keras", "keras"],
+        ["OpenCV", "opencv"],
+        ["Jupyter", "jupyter"]
+      ]
+    },
+    {
+      "icon": "BrainCircuit",
+      "label": "GenAI / LLM",
+      "note": "Retrieval, agents and LLM apps",
+      "items": [
+        ["LangChain", "langchain", "sf"],
+        ["LangGraph", "langgraph", "sf"],
+        ["Hugging Face", "huggingface", "sf"],
+        ["Ollama", "ollama", "sf"],
+        ["LLM APIs", "llm"]
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "title": "JPMorgan Chase & Co. — Software Engineering Job Simulation",
+      "issuer": "Forage",
+      "year": "Jun 2025"
+    },
+    {
+      "title": "Deloitte — Technology & Data Analytics Simulations",
+      "issuer": "Forage",
+      "year": "Jun 2025"
+    },
+    {
+      "title": "Deloitte — Cyber Security Job Simulation",
+      "issuer": "Forage",
+      "year": "Jun 2025"
+    },
+    {
+      "title": "Bootstrap Training — EduPyramids, SINE IIT Bombay",
+      "issuer": "EduPyramids, SINE IIT Bombay",
+      "year": "Score: 100% · Dec 2025"
+    }
+  ]
+}
+
