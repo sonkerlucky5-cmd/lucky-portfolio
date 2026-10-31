@@ -28,16 +28,6 @@ const Hero = ({
     <section id="home" className="section hero">
       <div className="hero-copy">
         <MotionP
-          className="status-pill"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: motionEase }}
-        >
-          <span className="status-dot" aria-hidden="true" />
-          Open to full-time &amp; freelance work
-        </MotionP>
-
-        <MotionP
           className="eyebrow"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

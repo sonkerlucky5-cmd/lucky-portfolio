@@ -135,10 +135,6 @@ const Contact = ({
         transition={{ duration: 0.6, ease: motionEase }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="contact-badge-pill">
-          <span className="live-pulse-dot" />
-          <span>Available for New Roles & Builds</span>
-        </div>
         <h2 className="contact-title">
           Let&apos;s build something <span className="gradient-text">exceptional</span>.
         </h2>
