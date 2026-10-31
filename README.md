@@ -60,7 +60,8 @@ Portfolio/
 │   │   ├── components/         # Hero, About, Experience, Projects, Contact, etc.
 │   │   ├── services/api.js     # Backend API integration service
 │   │   └── ...
-└── package.json                # Root package manager scripts
+├── .gitignore                  # Git ignore rules
+└── README.md                   # Project documentation
 ```
 
 ---
@@ -100,29 +101,18 @@ npm run db:seed
 
 ## 🚀 How to Run
 
-### **Option A: Run Both Together (Single Terminal - Recommended)**
-From the project root:
-```bash
-npm run dev
-```
-*(Starts both Backend on `http://localhost:5000` and Frontend on `http://localhost:5173` with color-coded logs!)*
-
----
-
-### **Option B: Run in Separate Terminals**
-
-#### **Terminal 1 (Backend)**
+### **Terminal 1: Start Backend**
 ```bash
 cd backend
 npm run dev
-# Server running at http://localhost:5000
+# Backend server runs at http://localhost:5000
 ```
 
-#### **Terminal 2 (Frontend)**
+### **Terminal 2: Start Frontend**
 ```bash
 cd frontend
 npm run dev
-# Website running at http://localhost:5173
+# Website runs at http://localhost:5173
 ```
 
 ---
