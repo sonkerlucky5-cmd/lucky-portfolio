@@ -169,3 +169,4 @@ const LegalModal = ({ isOpen, initialTab = "privacy", onClose }) => {
 };
 
 export default LegalModal;
+

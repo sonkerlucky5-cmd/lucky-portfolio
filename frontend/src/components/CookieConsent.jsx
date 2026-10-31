@@ -78,3 +78,4 @@ const CookieConsent = ({ onOpenPrivacy }) => {
 };
 
 export default CookieConsent;
+
