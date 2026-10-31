@@ -89,3 +89,127 @@ export const getWebsiteContent = async () => {
     return null;
   }
 };
+
+/**
+ * ============================================================
+ * ADMIN API CLIENT (PostgreSQL Powered)
+ * ============================================================
+ */
+
+const getAdminAuthHeaders = () => {
+  const token = localStorage.getItem("portfolio_admin_token");
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+};
+
+export const adminLogin = async (password) => {
+  const res = await fetch(`${API_BASE}/api/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || "Admin login failed.");
+  }
+  if (data.token) {
+    localStorage.setItem("portfolio_admin_token", data.token);
+  }
+  return data;
+};
+
+export const adminLogout = () => {
+  localStorage.removeItem("portfolio_admin_token");
+};
+
+export const adminGetOverview = async () => {
+  const res = await fetch(`${API_BASE}/api/admin/overview`, {
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to load admin overview");
+  return data.data;
+};
+
+export const adminGetProjects = async () => {
+  const res = await fetch(`${API_BASE}/api/admin/projects`, {
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to load projects");
+  return data.data;
+};
+
+export const adminCreateProject = async (projectData) => {
+  const res = await fetch(`${API_BASE}/api/admin/projects`, {
+    method: "POST",
+    headers: getAdminAuthHeaders(),
+    body: JSON.stringify(projectData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to create project");
+  return data.data;
+};
+
+export const adminUpdateProject = async (id, projectData) => {
+  const res = await fetch(`${API_BASE}/api/admin/projects/${id}`, {
+    method: "PUT",
+    headers: getAdminAuthHeaders(),
+    body: JSON.stringify(projectData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to update project");
+  return data.data;
+};
+
+export const adminDeleteProject = async (id) => {
+  const res = await fetch(`${API_BASE}/api/admin/projects/${id}`, {
+    method: "DELETE",
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to delete project");
+  return data.data;
+};
+
+export const adminGetMessages = async () => {
+  const res = await fetch(`${API_BASE}/api/admin/messages`, {
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to load messages");
+  return data.data;
+};
+
+export const adminMarkMessageRead = async (id) => {
+  const res = await fetch(`${API_BASE}/api/admin/messages/${id}/read`, {
+    method: "PATCH",
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to mark message read");
+  return data.data;
+};
+
+export const adminDeleteMessage = async (id) => {
+  const res = await fetch(`${API_BASE}/api/admin/messages/${id}`, {
+    method: "DELETE",
+    headers: getAdminAuthHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to delete message");
+  return data.data;
+};
+
+export const adminUpdateProfile = async (profileData) => {
+  const res = await fetch(`${API_BASE}/api/admin/profile`, {
+    method: "PUT",
+    headers: getAdminAuthHeaders(),
+    body: JSON.stringify(profileData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to update profile");
+  return data.data;
+};

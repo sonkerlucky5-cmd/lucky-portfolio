@@ -24,6 +24,7 @@ import Navbar from "./components/Navbar";
 import Preloader from "./components/Preloader";
 import Projects from "./components/Projects";
 import ScrollProgress from "./components/ScrollProgress";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 import { getProjects, getWebsiteContent, recordVisit } from "./services/api";
 
 const navItems = ["Home", "About", "Experience", "Skills", "Projects", "Contact"];

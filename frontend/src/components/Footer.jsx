@@ -1,4 +1,4 @@
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Lock, Mail } from "lucide-react";
 import { WhatsAppIcon, XIcon } from "./BrandIcons";
 
 const Footer = ({
@@ -7,6 +7,7 @@ const Footer = ({
   twitterUrl,
   whatsappUrl,
   mailtoUrl,
+  onOpenAdmin,
 }) => {
   const year = new Date().getFullYear();
 
@@ -16,7 +17,20 @@ const Footer = ({
         <p>
           © {year} Lucky Sonker · Software Engineer
         </p>
-        <small>Built with React, Vite and Framer Motion.</small>
+        <div className="footer-brand-sub">
+          <small>Built with React, PostgreSQL, Express &amp; Vite.</small>
+          {onOpenAdmin && (
+            <button
+              type="button"
+              onClick={onOpenAdmin}
+              className="footer-admin-link"
+              title="Open PostgreSQL Admin Portal (Shortcut: Ctrl + Shift + A)"
+            >
+              <Lock size={11} />
+              <span>Admin Portal</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="footer-links">

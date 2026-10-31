@@ -6,6 +6,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
 import infoRoutes from "./routes/infoRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import { apiLimiter } from "./middleware/rateLimiter.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
@@ -57,6 +58,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/info", infoRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Root route
 app.get("/", (req, res) => {

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Lock } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github, Lock, Terminal } from "lucide-react";
 
 const MotionDiv = motion.div;
 const MotionArticle = motion.article;
@@ -17,17 +17,16 @@ const Projects = ({ projects, motionEase }) => {
         <p className="eyebrow">SELECTED WORK</p>
         <h2>Projects built end to end.</h2>
         <p>
-          Each build covers the data model, the API and the interface — not just
-          the screen.
+          Each build covers the data model, the API, and the interface — engineered for scalability and real users.
         </p>
       </MotionDiv>
 
       <div className="projects-grid">
         {projects.map((project, index) => (
           <MotionArticle
-            key={project.title}
+            key={project.id || project.title}
             className="project-card"
-            style={{ "--project-accent": project.accent }}
+            style={{ "--project-accent": project.accent || "var(--accent)" }}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
@@ -35,19 +34,27 @@ const Projects = ({ projects, motionEase }) => {
               delay: index * 0.08,
               ease: motionEase,
             }}
-            viewport={{ once: true, amount: 0.25 }}
-            whileHover={{ y: -8 }}
+            viewport={{ once: true, amount: 0.2 }}
+            whileHover={{ y: -7 }}
           >
+            {/* macOS Browser Header */}
             <div className="project-preview">
               <div className="project-preview-bar" aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <span className="project-preview-url">
-                  <Lock size={10} />
-                  {project.preview}
-                </span>
+                <div className="mac-traffic-dots">
+                  <span className="dot dot-close" />
+                  <span className="dot dot-minimize" />
+                  <span className="dot dot-expand" />
+                </div>
+                <div className="project-preview-url">
+                  <Lock size={10} className="url-lock-icon" />
+                  <span>https://{project.preview}.dev</span>
+                </div>
+                <div className="project-preview-status">
+                  <span className="pulse-indicator" />
+                  <span>LIVE</span>
+                </div>
               </div>
+
               {project.image ? (
                 <img
                   className="project-preview-image"
@@ -57,46 +64,92 @@ const Projects = ({ projects, motionEase }) => {
                 />
               ) : (
                 <div className="project-preview-body" aria-hidden="true">
-                  <span className="project-monogram">
-                    {project.title.charAt(0)}
-                  </span>
-                  <span className="skeleton skeleton-head" />
-                  <span className="skeleton" />
-                  <span className="skeleton skeleton-short" />
+                  <div className="preview-top-row">
+                    <span className="project-monogram">
+                      {project.title.charAt(0)}
+                    </span>
+                    <div className="preview-code-tag">
+                      <Terminal size={11} />
+                      <span>v1.0.0 · Production</span>
+                    </div>
+                  </div>
+
+                  <div className="preview-skeletons">
+                    <span className="skeleton skeleton-head" />
+                    <span className="skeleton" />
+                    <span className="skeleton skeleton-short" />
+                  </div>
+
                   <span className="project-preview-chip">{project.type}</span>
                 </div>
               )}
             </div>
 
+            {/* Project Body */}
             <div className="project-body">
               <div className="project-head">
                 <h3>{project.title}</h3>
-                <span className="project-type">{project.type}</span>
+                <span className="project-type-tag">{project.type}</span>
               </div>
 
-              <p>{project.description}</p>
+              <p className="project-desc">{project.description}</p>
 
+              {/* Bullet Points */}
               <ul className="project-points">
-                {project.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
+                {project.points &&
+                  project.points.slice(0, 3).map((point, pIdx) => (
+                    <li key={pIdx}>
+                      <span className="point-text">{point}</span>
+                    </li>
+                  ))}
               </ul>
 
-              <div className="stack-list">
-                {project.stack.map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
+              {/* Card Footer (Pinned to Bottom for Equal Height) */}
+              <div className="project-card-footer">
+                <div className="stack-list">
+                  {project.stack &&
+                    project.stack.slice(0, 5).map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  {project.stack && project.stack.length > 5 && (
+                    <span className="stack-more">+{project.stack.length - 5}</span>
+                  )}
+                </div>
 
-              <div className="project-links">
-                <a href={project.code} target="_blank" rel="noreferrer">
-                  Repository <Github size={15} />
-                </a>
-                {project.live ? (
-                  <a href={project.live} target="_blank" rel="noreferrer">
-                    Live site <ExternalLink size={15} />
-                  </a>
-                ) : null}
+                <div className="project-links">
+                  {project.code && (
+                    <a
+                      href={project.code}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="project-btn project-btn-outline"
+                    >
+                      <Github size={14} />
+                      <span>Code</span>
+                    </a>
+                  )}
+                  {project.live ? (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="project-btn project-btn-primary"
+                    >
+                      <span>Live Site</span>
+                      <ArrowUpRight size={14} />
+                    </a>
+                  ) : (
+                    <a
+                      href={project.code || "https://github.com/sonkerlucky5-cmd"}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="project-btn project-btn-primary"
+                    >
+                      <span>View Repo</span>
+                      <ExternalLink size={14} />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </MotionArticle>
