@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+.particle-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #07060F;
+  overflow: hidden;
+}
+
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  display: block;
+}
+
+.preloader-skip {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  background: transparent;
+  border: 2px solid rgba(185, 192, 255, 0.5);
+  color: #B9C0FF;
+  font-family: 'Archivo Black', Arial Black, sans-serif;
+  font-size: 12px;
+  padding: 8px 20px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  z-index: 100001;
+}
+
+.preloader-skip:hover {
+  border-color: #FF6A4D;
+  color: #FF6A4D;
+  background: rgba(255, 106, 77, 0.1);
+}
+
+.preloader-replay {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: 2px solid #0E0B22;
+  color: #0E0B22;
+  font-family: 'Archivo Black', Arial Black, sans-serif;
+  font-size: 12px;
+  padding: 10px 30px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  z-index: 100001;
+}
+
+.preloader-replay:hover {
+  background: #0E0B22;
+  color: #EDEAFF;
+}
+
+.preloader-counter {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  font-family: 'Archivo Black', Arial Black, sans-serif;
+  font-size: clamp(60px, 10vw, 120px);
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  z-index: 100001;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .preloader-skip {
+    top: 20px;
+    right: 20px;
+    font-size: 10px;
+    padding: 6px 16px;
+  }
+  
+  .preloader-counter {
+    bottom: 20px;
+    left: 20px;
+    font-size: clamp(40px, 15vw, 80px);
+  }
+  
+  .preloader-replay {
+    bottom: 20px;
+    font-size: 10px;
+    padding: 8px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader-skip,
+  .preloader-replay {
+    transition: none;
+  }
+}

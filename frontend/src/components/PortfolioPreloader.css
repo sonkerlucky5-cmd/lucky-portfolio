@@ -1,0 +1,302 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Anton&display=swap");
+
+.pp {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pp-bg {
+  position: absolute;
+  inset: 0;
+  background: #f6f6f6;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.pp.is-active .pp-bg {
+  transform: scaleY(1);
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.pp-stripe {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(10px, 1.2vw, 16px);
+  height: 0;
+  background: #e31e24;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.pp.is-active .pp-stripe {
+  height: min(78vh, 820px);
+  transition: height 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+}
+
+.pp-marquee {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.pp-marquee--top {
+  top: 38%;
+}
+
+.pp-marquee--mid {
+  top: 50%;
+  z-index: 6;
+}
+
+.pp-marquee--bottom {
+  top: 62%;
+}
+
+.pp.is-active .pp-marquee {
+  opacity: 1;
+  transition: opacity 0.6s ease 0.9s;
+}
+
+.pp-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.pp-track--left {
+  animation: marqueeLeft 16s linear infinite;
+}
+
+.pp-track--right {
+  animation: marqueeRight 14s linear infinite;
+}
+
+.pp-track--left-slow {
+  animation: marqueeLeft 20s linear infinite;
+}
+
+.pp-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-right: clamp(2rem, 6vw, 6rem);
+}
+
+.pp-row--dup {
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
+
+.pp-text {
+  font-family: "Archivo Black", "Anton", Impact, system-ui, sans-serif;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  display: inline-block;
+  font-size: clamp(90px, 16vw, 290px);
+}
+
+.pp-text--fill {
+  color: #000000;
+}
+
+.pp-text--stroke {
+  color: transparent;
+  -webkit-text-stroke: clamp(1.6px, 0.16vw, 2.6px) #000000;
+  text-stroke: clamp(1.6px, 0.16vw, 2.6px) #000000;
+}
+
+.pp-text--thin {
+  -webkit-text-stroke: clamp(1px, 0.12vw, 1.8px) #000000;
+  text-stroke: clamp(1px, 0.12vw, 1.8px) #000000;
+}
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.pp-curtain {
+  position: absolute;
+  inset: 0;
+  background: #0f0f0f;
+  transform: translateY(100%);
+  z-index: 10;
+}
+
+.pp.is-exit .pp-curtain {
+  transform: translateY(0);
+  transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.pp.is-exit .pp-bg,
+.pp.is-exit .pp-stripe,
+.pp.is-exit .pp-marquee {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.pp.is-exit .pp-stripe {
+  height: 0;
+  transition: height 0.4s ease;
+}
+
+@media (max-width: 1280px) {
+  .pp-text {
+    font-size: clamp(80px, 15vw, 240px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .pp-stripe {
+    width: clamp(8px, 1vw, 12px);
+  }
+
+  .pp.is-active .pp-stripe {
+    height: min(72vh, 680px);
+  }
+
+  .pp-text {
+    font-size: clamp(68px, 14vw, 190px);
+  }
+
+  .pp-text--stroke {
+    -webkit-text-stroke: clamp(1.4px, 0.16vw, 2px) #000000;
+    text-stroke: clamp(1.4px, 0.16vw, 2px) #000000;
+  }
+
+  .pp-text--thin {
+    -webkit-text-stroke: clamp(0.9px, 0.14vw, 1.4px) #000000;
+    text-stroke: clamp(0.9px, 0.14vw, 1.4px) #000000;
+  }
+}
+
+@media (max-width: 768px) {
+  .pp-stripe {
+    width: clamp(7px, 0.9vw, 10px);
+  }
+
+  .pp.is-active .pp-stripe {
+    height: min(66vh, 580px);
+  }
+
+  .pp-text {
+    font-size: clamp(52px, 13vw, 150px);
+  }
+
+  .pp-row {
+    gap: clamp(1.6rem, 5vw, 4rem);
+    padding-right: clamp(1.6rem, 5vw, 4rem);
+  }
+
+  .pp-text--stroke {
+    -webkit-text-stroke: clamp(1.2px, 0.18vw, 1.8px) #000000;
+    text-stroke: clamp(1.2px, 0.18vw, 1.8px) #000000;
+  }
+
+  .pp-text--thin {
+    -webkit-text-stroke: clamp(0.8px, 0.16vw, 1.2px) #000000;
+    text-stroke: clamp(0.8px, 0.16vw, 1.2px) #000000;
+  }
+}
+
+@media (max-width: 430px) {
+  .pp-stripe {
+    width: 6px;
+  }
+
+  .pp.is-active .pp-stripe {
+    height: min(62vh, 520px);
+  }
+
+  .pp-text {
+    font-size: clamp(38px, 12vw, 110px);
+  }
+
+  .pp-text--stroke {
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+  }
+
+  .pp-text--thin {
+    -webkit-text-stroke: 0.8px #000000;
+    text-stroke: 0.8px #000000;
+  }
+
+  .pp-row {
+    gap: clamp(1.2rem, 4vw, 2.6rem);
+    padding-right: clamp(1.2rem, 4vw, 2.6rem);
+  }
+}
+
+@media (max-width: 375px) {
+  .pp-text {
+    font-size: clamp(34px, 11.5vw, 96px);
+  }
+}
+
+@media (max-width: 320px) {
+  .pp-text {
+    font-size: clamp(30px, 11vw, 84px);
+  }
+
+  .pp-text--stroke {
+    -webkit-text-stroke: 0.9px #000000;
+    text-stroke: 0.9px #000000;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-bg,
+  .pp-stripe,
+  .pp-marquee,
+  .pp-track,
+  .pp-curtain {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .pp.is-active .pp-bg {
+    transform: scaleY(1);
+  }
+
+  .pp.is-active .pp-stripe {
+    height: min(40vh, 400px);
+  }
+
+  .pp.is-active .pp-marquee {
+    opacity: 1;
+  }
+
+  .pp.is-exit .pp-curtain {
+    transform: translateY(0);
+  }
+}

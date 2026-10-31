@@ -1,0 +1,51 @@
+[
+  {
+    "id": "proj-1",
+    "title": "Full Stack E-Commerce App",
+    "type": "Full-stack build",
+    "preview": "ecommerce-app",
+    "accent": "#da5f36",
+    "description": "A complete storefront with JWT authentication, product and cart APIs, and an order flow designed for real buyers.",
+    "points": [
+      "12+ REST endpoints covering products, cart and orders",
+      "MongoDB schema handling 500+ products, with a 25% faster page load"
+    ],
+    "stack": ["React", "Node.js", "Express", "MongoDB", "JWT"],
+    "code": "https://github.com/sonkerlucky5-cmd",
+    "live": "",
+    "featured": true
+  },
+  {
+    "id": "proj-2",
+    "title": "Shopify Store Customization",
+    "type": "E-commerce",
+    "preview": "shopify-store",
+    "accent": "#95bf47",
+    "description": "Theme and checkout work for live storefronts — custom sections in Liquid, app integrations and mobile-first polish.",
+    "points": [
+      "Customised 3+ Shopify themes with Liquid, HTML, CSS and JavaScript",
+      "Configured 5+ third-party apps and reduced checkout friction points"
+    ],
+    "stack": ["Shopify", "Liquid", "HTML", "CSS", "JavaScript"],
+    "code": "https://github.com/sonkerlucky5-cmd",
+    "live": "",
+    "featured": true
+  },
+  {
+    "id": "proj-3",
+    "title": "AI/ML Analytics Project",
+    "type": "Data / ML",
+    "preview": "analytics-pipeline",
+    "accent": "#7c5cff",
+    "description": "A Python pipeline that cleans and prepares messy records, then feeds them into a scikit-learn model for analysis.",
+    "points": [
+      "Automated cleaning and preprocessing for 5,000+ records",
+      "Cut manual processing time by roughly 40% using NumPy and Polars"
+    ],
+    "stack": ["Python", "NumPy", "Pandas", "Polars", "Scikit-learn"],
+    "code": "https://github.com/sonkerlucky5-cmd",
+    "live": "",
+    "featured": true
+  }
+]
+

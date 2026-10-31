@@ -1,0 +1,62 @@
+{
+  "name": "Lucky Sonker",
+  "title": "Software Engineer",
+  "company": "VorldX Industries Pvt. Ltd.",
+  "location": "Lucknow, India",
+  "email": "sonkerlucky5@gmail.com",
+  "phone": "+91 93350 48020",
+  "whatsapp": "https://wa.me/919335048020",
+  "github": "https://github.com/sonkerlucky5-cmd",
+  "linkedin": "https://www.linkedin.com/in/lucky-sonker-24539a2b4",
+  "twitter": "https://x.com/Lucky_DevAI",
+  "bio": "A software engineer in Lucknow, building products that hold up in production. React and Node.js with MongoDB, Shopify builds, and Python analytics.",
+  "experience": [
+    {
+      "role": "Software Engineer",
+      "company": "VorldX Industries Pvt. Ltd. · Lucknow",
+      "period": "Jun 2026 — Present",
+      "status": "current",
+      "summary": "Building responsive, scalable web applications with the MERN stack, from data model to interface.",
+      "points": [
+        "Develop and maintain production features in React.js, Node.js, Express.js and MongoDB.",
+        "Build RESTful APIs and model MongoDB data for efficient reads and writes.",
+        "Work with the team on new features, performance tuning and bug fixes, with Git-based code reviews."
+      ]
+    },
+    {
+      "role": "Full Stack Developer Intern",
+      "company": "Infoseek Training · Hybrid",
+      "period": "2025",
+      "status": "past",
+      "summary": "A three-month intensive MERN programme, delivered as production-style modules.",
+      "points": [
+        "Shipped 4+ full-stack modules covering frontend, backend and database integration.",
+        "Engineered 10+ reusable React components, cutting frontend work on new features by roughly 30%.",
+        "Designed and tested 15+ REST endpoints in Node.js and Express, backed by MongoDB CRUD."
+      ]
+    }
+  ],
+  "education": {
+    "degree": "Bachelor of Computer Applications",
+    "institution": "Maharishi University of Information Technology, Lucknow",
+    "period": "2023 — 2026"
+  },
+  "certifications": [
+    {
+      "title": "JPMorgan Chase — Software Engineering Simulation",
+      "issuer": "Forage",
+      "year": "2025"
+    },
+    {
+      "title": "Deloitte — Technology, Data Analytics & Cyber Simulations",
+      "issuer": "Forage",
+      "year": "2025"
+    },
+    {
+      "title": "Bootstrap Training — EduPyramids, SINE IIT Bombay",
+      "issuer": "EduPyramids",
+      "year": "2025"
+    }
+  ]
+}
+

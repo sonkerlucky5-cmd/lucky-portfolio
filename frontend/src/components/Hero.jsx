@@ -6,36 +6,51 @@ import {
   Linkedin,
   Mail,
 } from "lucide-react";
+import { WhatsAppIcon, XIcon } from "./BrandIcons";
 
 const MotionP = motion.p;
 const MotionH1 = motion.h1;
 const MotionDiv = motion.div;
 const MotionSpan = motion.span;
+const MotionUl = motion.ul;
 
 const Hero = ({
   typedText,
   motionEase,
   githubUrl,
   linkedinUrl,
+  twitterUrl,
+  whatsappUrl,
   mailtoUrl,
+  resumeUrl,
 }) => {
   return (
     <section id="home" className="section hero">
       <div className="hero-copy">
         <MotionP
+          className="status-pill"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: motionEase }}
+        >
+          <span className="status-dot" aria-hidden="true" />
+          Open to full-time &amp; freelance work
+        </MotionP>
+
+        <MotionP
           className="eyebrow"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: motionEase }}
+          transition={{ duration: 0.5, delay: 0.04, ease: motionEase }}
         >
-          FULL STACK DEVELOPER
+          FULL STACK DEVELOPER · AI/ML ENGINEER
         </MotionP>
 
         <MotionP
           className="hero-typing"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.04, ease: motionEase }}
+          transition={{ duration: 0.55, delay: 0.08, ease: motionEase }}
         >
           <span className="typing-prefix">I build</span>
           <span className="typing-word">{typedText}</span>
@@ -45,19 +60,21 @@ const Hero = ({
         <MotionH1
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08, ease: motionEase }}
+          transition={{ duration: 0.55, delay: 0.12, ease: motionEase }}
         >
-          Building websites that feel fast, clear, and memorable.
+          Full-stack products,{" "}
+          <span className="gradient-text">with AI built in.</span>
         </MotionH1>
 
         <MotionP
           className="hero-text"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.16, ease: motionEase }}
+          transition={{ duration: 0.55, delay: 0.18, ease: motionEase }}
         >
-          Hi, I am <strong>Lucky Sonker</strong>. I build modern web products with
-          React and Node.js, focused on clean UX and practical business value.
+          I&apos;m <strong>Lucky Sonker</strong> — a full-stack developer who also
+          works in Python and machine learning. I build the interface, the API and
+          the data model, then layer the intelligence on top.
         </MotionP>
 
         <MotionDiv
@@ -70,7 +87,7 @@ const Hero = ({
             View Projects <ArrowRight size={16} />
           </a>
           <a
-            href="/Lucky-cv-1.pdf"
+            href={resumeUrl}
             target="_blank"
             rel="noreferrer"
             className="btn btn-outline"
@@ -80,11 +97,31 @@ const Hero = ({
           </a>
         </MotionDiv>
 
+        <MotionUl
+          className="hero-stats"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.3, ease: motionEase }}
+        >
+          <li>
+            <strong>Full Stack</strong>
+            <span>React · Node · APIs</span>
+          </li>
+          <li>
+            <strong>AI / ML</strong>
+            <span>Python · Polars</span>
+          </li>
+          <li>
+            <strong>Based in</strong>
+            <span>Lucknow, India</span>
+          </li>
+        </MotionUl>
+
         <MotionDiv
           className="socials"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.55, delay: 0.34 }}
+          transition={{ duration: 0.55, delay: 0.36 }}
         >
           <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub">
             <Github size={18} />
@@ -96,6 +133,17 @@ const Hero = ({
             aria-label="LinkedIn"
           >
             <Linkedin size={18} />
+          </a>
+          <a href={twitterUrl} target="_blank" rel="noreferrer" aria-label="X">
+            <XIcon size={16} />
+          </a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="WhatsApp"
+          >
+            <WhatsAppIcon size={18} />
           </a>
           <a href={mailtoUrl} target="_blank" rel="noreferrer" aria-label="Email">
             <Mail size={18} />
@@ -113,17 +161,17 @@ const Hero = ({
           <MotionDiv
             className="hero-visual-ring"
             animate={{ rotate: 360 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
           <MotionDiv
             className="hero-visual-core"
             animate={{ scale: [1, 1.04, 1], opacity: [0.9, 1, 0.9] }}
             transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span>Ship Fast</span>
-            <strong>Design + Code</strong>
+            <span>Currently</span>
+            <strong>Software Engineer</strong>
           </MotionDiv>
-          {["Motion", "API Ready", "Responsive"].map((label, index) => (
+          {["React", "Python", "Node.js"].map((label, index) => (
             <MotionSpan
               key={label}
               className={`hero-badge hero-badge-${index + 1}`}
@@ -139,17 +187,20 @@ const Hero = ({
             </MotionSpan>
           ))}
         </div>
-        <p className="panel-eyebrow">CURRENT FOCUS</p>
-        <h3>Designing high-performance portfolio and business sites.</h3>
+        <p className="panel-eyebrow">RIGHT NOW</p>
+        <h3>
+          Shipping full-stack features at VorldX while going deeper into applied
+          AI and machine learning.
+        </h3>
         <ul>
           <li>
-            <span>01</span> Responsive experiences for mobile and desktop
+            <span>01</span> Building product features in React and Node.js
           </li>
           <li>
-            <span>02</span> Interactive UI with lightweight animations
+            <span>02</span> Designing APIs, schemas and clean data flows
           </li>
           <li>
-            <span>03</span> API integrations and scalable backend structure
+            <span>03</span> Training and evaluating models in Python
           </li>
         </ul>
       </MotionDiv>

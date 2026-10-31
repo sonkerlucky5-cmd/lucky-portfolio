@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+.cursive-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cursive-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f23 50%, #000000 100%);
+  animation: bgPulse 4s ease-in-out infinite;
+}
+
+@keyframes bgPulse {
+  0%, 100% {
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f23 50%, #000000 100%);
+  }
+  50% {
+    background: radial-gradient(ellipse at center, #1e1e3f 0%, #12122a 50%, #000000 100%);
+  }
+}
+
+.cursive-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.cursive-text-wrap {
+  width: min(90vw, 1000px);
+  height: auto;
+  padding: 2rem;
+}
+
+.cursive-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.cursive-path-text {
+  font-family: 'Great Vibes', 'Dancing Script', cursive;
+  font-size: clamp(80px, 15vw, 200px);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawStroke 2.5s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.cursive-path-text-fill {
+  font-family: 'Great Vibes', 'Dancing Script', cursive;
+  font-size: clamp(80px, 15vw, 200px);
+  opacity: 0;
+  animation: fadeInFill 1s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.cursive-subtitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(20px, 4vw, 40px);
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeInSubtitle 1s ease-in-out forwards;
+  animation-delay: 2.8s;
+}
+
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInFill {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInSubtitle {
+  to {
+    opacity: 0.7;
+  }
+}
+
+.cursive-curtain {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #000000 0%, #000000 100%);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  z-index: 10;
+}
+
+.cursive-preloader.is-exit .cursive-curtain {
+  transform: scaleY(1);
+  transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.cursive-preloader.is-exit .cursive-bg {
+  animation: none;
+}
+
+.cursive-preloader.is-exit .cursive-path-text,
+.cursive-preloader.is-exit .cursive-path-text-fill,
+.cursive-preloader.is-exit .cursive-subtitle {
+  animation: fadeOutText 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeOutText {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .cursive-text-wrap {
+    padding: 1rem;
+  }
+  
+  .cursive-path-text,
+  .cursive-path-text-fill {
+    font-size: clamp(60px, 18vw, 120px);
+  }
+  
+  .cursive-subtitle {
+    font-size: clamp(16px, 6vw, 28px);
+  }
+}
+
+@media (max-width: 480px) {
+  .cursive-path-text,
+  .cursive-path-text-fill {
+    font-size: clamp(45px, 20vw, 90px);
+  }
+  
+  .cursive-subtitle {
+    font-size: clamp(14px, 7vw, 24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursive-bg {
+    animation: none;
+  }
+  
+  .cursive-path-text {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+    stroke: #ffffff;
+  }
+  
+  .cursive-path-text-fill {
+    opacity: 1;
+    animation: none;
+  }
+  
+  .cursive-subtitle {
+    opacity: 0.7;
+    animation: none;
+  }
+  
+  .cursive-preloader.is-exit .cursive-curtain {
+    transition: transform 0.8s ease;
+  }
+}
