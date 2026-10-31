@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    sourcemap: false, // Security: Do not expose raw client source code in production
+  },
   server: {
     proxy: {
       '/api': {

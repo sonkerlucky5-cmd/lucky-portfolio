@@ -3,14 +3,14 @@ const API_BASE = import.meta.env.VITE_API_URL || "";
 /**
  * Send a contact inquiry to the backend
  */
-export const sendContactMessage = async ({ name, email, subject, message }) => {
+export const sendContactMessage = async ({ name, email, subject, message, _gotcha }) => {
   try {
     const res = await fetch(`${API_BASE}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, subject, message }),
+      body: JSON.stringify({ name, email, subject, message, _gotcha }),
     });
 
     const data = await res.json();

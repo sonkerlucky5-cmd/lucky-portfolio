@@ -1,14 +1,66 @@
 import { query } from "../config/db.js";
 import { sendNotificationEmail } from "../utils/emailService.js";
 
+// Sanitize string against XSS and strip HTML tags
+const sanitizeText = (str) => {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/<[^>]*>?/gm, "") // Strip HTML tags
+    .replace(/[<>'"&]/g, (char) => {
+      switch (char) {
+        case "<": return "&lt;";
+        case ">": return "&gt;";
+        case "'": return "&#39;";
+        case '"': return "&quot;";
+        case "&": return "&amp;";
+        default: return char;
+      }
+    })
+    .trim();
+};
+
+// Privacy Engineering: Anonymize IP to comply with data minimization
+const anonymizeIpAddress = (ip) => {
+  if (!ip) return "anonymized";
+  const clean = ip.replace(/^.*:/, ""); // Strip IPv6 prefix if present
+  if (clean.includes(".")) {
+    const parts = clean.split(".");
+    if (parts.length === 4) {
+      return `${parts[0]}.${parts[1]}.${parts[2]}.0`;
+    }
+  }
+  return "anonymized";
+};
+
 export const submitContactMessage = async (req, res, next) => {
   try {
-    const { name, email, subject, message } = req.body;
+    const { name, email, subject, message, _gotcha } = req.body;
+
+    // Honeypot spam defense: if hidden field is filled, silently drop bot submission
+    if (_gotcha) {
+      return res.status(201).json({
+        success: true,
+        message: "Thank you for reaching out! Your message has been received.",
+        data: {
+          id: `SPAM-${Date.now()}`,
+          name: "User",
+          createdAt: new Date().toISOString(),
+        },
+      });
+    }
 
     if (!name || !email || !message) {
       return res.status(400).json({
         success: false,
         message: "Please provide your name, email, and message.",
+      });
+    }
+
+    // Strict boundary checks
+    if (name.length > 100 || email.length > 120 || (subject && subject.length > 150) || message.length > 3000) {
+      return res.status(400).json({
+        success: false,
+        message: "Input length exceeds security limit.",
       });
     }
 
@@ -20,15 +72,15 @@ export const submitContactMessage = async (req, res, next) => {
       });
     }
 
-    const ipAddress =
+    const rawIp =
       req.headers["x-forwarded-for"] || req.socket.remoteAddress || "";
 
     const payload = {
-      name: name.trim(),
+      name: sanitizeText(name),
       email: email.trim().toLowerCase(),
-      subject: (subject || "Portfolio Inquiry").trim(),
-      message: message.trim(),
-      ipAddress,
+      subject: sanitizeText(subject || "Portfolio Inquiry"),
+      message: sanitizeText(message),
+      ipAddress: anonymizeIpAddress(rawIp),
     };
 
     const sql = `

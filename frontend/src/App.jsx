@@ -25,6 +25,9 @@ import Preloader from "./components/Preloader";
 import Projects from "./components/Projects";
 import ScrollProgress from "./components/ScrollProgress";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
+import CookieConsent from "./components/CookieConsent";
+import LegalModal from "./components/LegalModal";
+import NotFound from "./components/NotFound";
 import { getProjects, getWebsiteContent, recordVisit } from "./services/api";
 
 const navItems = ["Home", "About", "Experience", "Skills", "Projects", "Contact"];
@@ -253,6 +256,8 @@ const App = () => {
   const [projectList, setProjectList] = useState(projects);
   const [experienceList, setExperienceList] = useState(experience);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [legalModal, setLegalModal] = useState({ isOpen: false, tab: "privacy" });
+  const [isNotFound, setIsNotFound] = useState(false);
 
   const refreshProjectsFromDb = () => {
     getProjects().then((backendProjects) => {
@@ -271,12 +276,12 @@ const App = () => {
   };
 
   useEffect(() => {
+    const path = window.location.pathname;
     // Check if directly navigating to /admin or #admin
-    if (
-      window.location.pathname === "/admin" ||
-      window.location.hash === "#admin"
-    ) {
+    if (path === "/admin" || window.location.hash === "#admin") {
       setIsAdminOpen(true);
+    } else if (path !== "/" && !path.startsWith("/#") && path.length > 1) {
+      setIsNotFound(true);
     }
 
     // Global shortcut: Ctrl + Shift + A to open Admin Panel
@@ -292,8 +297,11 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // Record visit on initial load
-    recordVisit();
+    // Privacy-respecting: Only record visit if not explicitly denied
+    const consent = localStorage.getItem("portfolio_cookie_consent");
+    if (consent !== "denied") {
+      recordVisit();
+    }
 
     // Dynamically load projects from PostgreSQL API
     refreshProjectsFromDb();
@@ -630,6 +638,17 @@ const App = () => {
             whatsappUrl={whatsappUrl}
             mailtoUrl={mailtoUrl}
             onOpenAdmin={() => setIsAdminOpen(true)}
+            onOpenLegal={(tab) => setLegalModal({ isOpen: true, tab })}
+          />
+
+          <CookieConsent
+            onOpenPrivacy={() => setLegalModal({ isOpen: true, tab: "privacy" })}
+          />
+
+          <LegalModal
+            isOpen={legalModal.isOpen}
+            initialTab={legalModal.tab}
+            onClose={() => setLegalModal({ isOpen: false, tab: "privacy" })}
           />
 
           <AdminPanel
@@ -647,6 +666,16 @@ const App = () => {
             onRefreshProfile={refreshProfileFromDb}
           />
         </div>
+      )}
+
+      {/* 404 Route Fallback */}
+      {isNotFound && (
+        <NotFound
+          onGoHome={() => {
+            window.history.pushState(null, "", "/");
+            setIsNotFound(false);
+          }}
+        />
       )}
     </>
   );

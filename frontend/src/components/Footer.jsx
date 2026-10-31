@@ -8,6 +8,7 @@ const Footer = ({
   whatsappUrl,
   mailtoUrl,
   onOpenAdmin,
+  onOpenLegal,
 }) => {
   const year = new Date().getFullYear();
 
@@ -19,17 +20,39 @@ const Footer = ({
         </p>
         <div className="footer-brand-sub">
           <small>Built with React, PostgreSQL, Express &amp; Vite.</small>
-          {onOpenAdmin && (
-            <button
-              type="button"
-              onClick={onOpenAdmin}
-              className="footer-admin-link"
-              title="Open PostgreSQL Admin Portal (Shortcut: Ctrl + Shift + A)"
-            >
-              <Lock size={11} />
-              <span>Admin Portal</span>
-            </button>
-          )}
+          <div className="footer-legal-links">
+            {onOpenLegal && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => onOpenLegal("privacy")}
+                  className="footer-policy-link"
+                >
+                  Privacy Policy
+                </button>
+                <span className="dot-sep">•</span>
+                <button
+                  type="button"
+                  onClick={() => onOpenLegal("terms")}
+                  className="footer-policy-link"
+                >
+                  Terms &amp; Conditions
+                </button>
+                <span className="dot-sep">•</span>
+              </>
+            )}
+            {onOpenAdmin && (
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                className="footer-admin-link"
+                title="Open PostgreSQL Admin Portal (Shortcut: Ctrl + Shift + A)"
+              >
+                <Lock size={11} />
+                <span>Admin Portal</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

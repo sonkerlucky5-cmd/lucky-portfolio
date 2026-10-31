@@ -47,6 +47,7 @@ const Contact = ({
     email: "",
     subject: "Full-Stack Web App",
     message: "",
+    _gotcha: "",
   });
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMessage, setErrorMessage] = useState("");
@@ -233,6 +234,20 @@ const Contact = ({
                       );
                     })}
                   </div>
+                </div>
+
+                {/* Anti-spam honeypot defense (Traps bots, invisible to humans) */}
+                <div style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }} aria-hidden="true">
+                  <label htmlFor="contact_gotcha">Do not fill this</label>
+                  <input
+                    id="contact_gotcha"
+                    name="_gotcha"
+                    type="text"
+                    value={formData._gotcha || ""}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                 </div>
 
                 {/* Form Inputs */}
