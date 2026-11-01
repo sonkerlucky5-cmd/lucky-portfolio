@@ -17,7 +17,7 @@
       name="keywords"
       content="Lucky Sonker, Full Stack Developer Lucknow, AI ML Engineer India, MERN stack developer, React Node.js developer, Python developer, Shopify developer, Software Engineer VorldX"
     />
-    <meta name="theme-color" content="#7c3fff" />
+    <meta name="theme-color" content="#0d1526" />
     <link rel="canonical" href="https://luckysanker.dev/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Lucky Sonker Portfolio" />
@@ -42,6 +42,26 @@
     <meta name="twitter:image:alt" content="Lucky Sonker - Full Stack Developer and AI/ML Engineer" />
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Lucky Sonker","url":"https://luckysanker.dev/","image":"https://luckysanker.dev/lucky%20sonker.png","jobTitle":"Full Stack Developer and AI/ML Engineer","description":"Full Stack Developer and AI/ML Engineer in Lucknow, India building production-ready web applications with React, Node.js, MongoDB, Python, and applied AI/ML.","email":"sonkerlucky5@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Lucknow","addressRegion":"Uttar Pradesh","addressCountry":"IN"},"sameAs":["https://github.com/sonkerlucky5-cmd","https://www.linkedin.com/in/lucky-sonker-24539a2b4","https://x.com/Lucky_DevAI"],"worksFor":{"@type":"Organization","name":"VorldX Industries Pvt. Ltd."},"alumniOf":{"@type":"EducationalOrganization","name":"Maharishi University of Information Technology, Lucknow"},"knowsAbout":["React.js","Node.js","Express.js","MongoDB","PostgreSQL","MySQL","JavaScript","Python","NumPy","Pandas","Polars","Scikit-learn","TensorFlow","PyTorch","LangChain","LangGraph","Shopify","Liquid","REST APIs","Full Stack Development","AI/ML","Data Analytics"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Lucky Sonker Portfolio","url":"https://luckysanker.dev/","description":"Portfolio of Lucky Sonker - Full Stack Developer and AI/ML Engineer","author":{"@type":"Person","name":"Lucky Sonker"}}</script>
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem("portfolio_theme");
+          var theme = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.backgroundColor = theme === "dark" ? "#0d1526" : "#f6efe5";
+        } catch(e) {}
+      })();
+    </script>
+    <style>
+      html, body, #root {
+        background-color: #0d1526;
+      }
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #root {
+        background-color: #f6efe5;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -66,6 +66,8 @@
 }
 
 html {
+  background-color: var(--bg);
+  color-scheme: dark light;
   scroll-behavior: smooth;
   overscroll-behavior-y: none;
 }
@@ -74,12 +76,19 @@ body {
   margin: 0;
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
   color: var(--text);
+  background-color: var(--bg);
   background:
     radial-gradient(circle at 10% 10%, var(--bg-orb-one) 0%, transparent 35%),
     radial-gradient(circle at 88% 16%, var(--bg-orb-two) 0%, transparent 34%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 40%, var(--bg-bottom) 100%);
+  background-color: var(--bg);
   overflow-x: hidden;
   overscroll-behavior-y: none;
+}
+
+#root {
+  background-color: var(--bg);
+  min-height: 100vh;
 }
 
 a {
@@ -93,6 +102,7 @@ a {
   isolation: isolate;
   overflow-x: clip;
   padding: 1.1rem clamp(1rem, 3vw, 2.7rem) 0;
+  background-color: var(--bg);
 }
 
 .shape {
@@ -846,7 +856,7 @@ p {
   object-fit: cover;
   object-position: center 28%;
   border-radius: 15px;
-  background: #fff;
+  background: var(--surface);
 }
 
 .about-photo figcaption {
