@@ -217,7 +217,7 @@ const Contact = ({
               <form className="contact-rich-form" onSubmit={handleSubmit}>
                 {/* Intent / Topic Selection Pills */}
                 <div className="intent-selector-wrap">
-                  <label className="input-legend">What are you looking for?</label>
+                  <span className="input-legend">What are you looking for?</span>
                   <div className="intent-pills">
                     {projectTypes.map((type) => {
                       const isActive = selectedType === type.id;
@@ -237,7 +237,7 @@ const Contact = ({
                 </div>
 
                 {/* Anti-spam honeypot defense (Traps bots, invisible to humans) */}
-                <div style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }} aria-hidden="true">
+                <div style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}>
                   <label htmlFor="contact_gotcha">Do not fill this</label>
                   <input
                     id="contact_gotcha"
