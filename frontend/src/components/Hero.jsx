@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -15,13 +14,8 @@ const MotionDiv = motion.div;
 const MotionSpan = motion.span;
 const MotionUl = motion.ul;
 
-const typingLines = [
-  "React interfaces that feel smooth.",
-  "Node APIs built for real products.",
-  "Python models behind clean UIs.",
-];
-
 const Hero = ({
+  typedText,
   motionEase,
   githubUrl,
   linkedinUrl,
@@ -30,36 +24,6 @@ const Hero = ({
   mailtoUrl,
   resumeUrl,
 }) => {
-  // Encapsulated typing state to avoid re-rendering the entire app during typing
-  const [typedText, setTypedText] = useState("");
-  const [activeTypingIndex, setActiveTypingIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const currentLine = typingLines[activeTypingIndex];
-    let timeoutId;
-
-    if (!isDeleting && typedText === currentLine) {
-      timeoutId = window.setTimeout(() => {
-        setIsDeleting(true);
-      }, 1400);
-    } else if (isDeleting && typedText === "") {
-      timeoutId = window.setTimeout(() => {
-        setIsDeleting(false);
-        setActiveTypingIndex((prev) => (prev + 1) % typingLines.length);
-      }, 240);
-    } else {
-      timeoutId = window.setTimeout(() => {
-        const nextLength = typedText.length + (isDeleting ? -1 : 1);
-        setTypedText(currentLine.slice(0, nextLength));
-      }, isDeleting ? 48 : 88);
-    }
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [activeTypingIndex, isDeleting, typedText]);
-
   return (
     <section id="home" className="section hero">
       <div className="hero-copy">
@@ -134,28 +98,22 @@ const Hero = ({
             <span>React · Node · APIs</span>
           </li>
           <li>
-            <strong>Machine Learning</strong>
-            <span>Python · Polars · Scikit</span>
+            <strong>AI / ML</strong>
+            <span>Python · Polars</span>
           </li>
           <li>
-            <strong>E-Commerce</strong>
-            <span>Liquid · Shopify · Custom</span>
+            <strong>Based in</strong>
+            <span>Lucknow, India</span>
           </li>
         </MotionUl>
 
         <MotionDiv
-          className="hero-socials"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.36, ease: motionEase }}
+          className="socials"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.55, delay: 0.36 }}
         >
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            title="GitHub"
-          >
+          <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub">
             <Github size={18} />
           </a>
           <a
@@ -163,17 +121,10 @@ const Hero = ({
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
-            title="LinkedIn"
           >
             <Linkedin size={18} />
           </a>
-          <a
-            href={twitterUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="X (Twitter)"
-            title="X (Twitter)"
-          >
+          <a href={twitterUrl} target="_blank" rel="noreferrer" aria-label="X">
             <XIcon size={16} />
           </a>
           <a
@@ -181,50 +132,68 @@ const Hero = ({
             target="_blank"
             rel="noreferrer"
             aria-label="WhatsApp"
-            title="WhatsApp"
           >
             <WhatsAppIcon size={18} />
           </a>
-          <a
-            href={mailtoUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Email"
-            title="Email"
-          >
+          <a href={mailtoUrl} target="_blank" rel="noreferrer" aria-label="Email">
             <Mail size={18} />
           </a>
         </MotionDiv>
       </div>
 
-      <div className="hero-terminal-wrap">
-        <div className="hero-terminal">
-          <div className="terminal-header">
-            <span className="terminal-dot close" />
-            <span className="terminal-dot minimize" />
-            <span className="terminal-dot expand" />
-            <span className="terminal-title">lucky@portfolio:~</span>
-          </div>
-          <div className="terminal-body">
-            <p className="terminal-cmd">
-              <span className="prompt">$</span> cat profile.json
-            </p>
-            <pre className="terminal-output">
-{`{
-  "name": "Lucky Sonker",
-  "role": "Software Engineer",
-  "company": "VorldX Industries",
-  "database": "PostgreSQL",
-  "stack": ["React", "Node", "Python"],
-  "status": "Ready for new builds"
-}`}
-            </pre>
-            <p className="terminal-cmd">
-              <span className="prompt">$</span> <span className="cursor">_</span>
-            </p>
-          </div>
+      <MotionDiv
+        className="hero-panel"
+        initial={{ opacity: 0, x: 24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: motionEase }}
+      >
+        <div className="hero-visual">
+          <MotionDiv
+            className="hero-visual-ring"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          <MotionDiv
+            className="hero-visual-core"
+            animate={{ scale: [1, 1.04, 1], opacity: [0.9, 1, 0.9] }}
+            transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <span>Currently</span>
+            <strong>Software Engineer</strong>
+          </MotionDiv>
+          {["React", "Python", "Node.js"].map((label, index) => (
+            <MotionSpan
+              key={label}
+              className={`hero-badge hero-badge-${index + 1}`}
+              animate={{ y: [0, -10, 0] }}
+              transition={{
+                duration: 3.2 + index * 0.45,
+                delay: index * 0.18,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              {label}
+            </MotionSpan>
+          ))}
         </div>
-      </div>
+        <p className="panel-eyebrow">RIGHT NOW</p>
+        <h3>
+          Shipping full-stack features at VorldX while going deeper into applied
+          AI and machine learning.
+        </h3>
+        <ul>
+          <li>
+            <span>01</span> Building product features in React and Node.js
+          </li>
+          <li>
+            <span>02</span> Designing APIs, schemas and clean data flows
+          </li>
+          <li>
+            <span>03</span> Training and evaluating models in Python
+          </li>
+        </ul>
+      </MotionDiv>
     </section>
   );
 };

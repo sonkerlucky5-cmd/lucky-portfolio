@@ -205,7 +205,11 @@ const twitterUrl = "https://x.com/Lucky_DevAI";
 const whatsappNumber = "+91 93350 48020";
 const whatsappUrl = "https://wa.me/919335048020";
 const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}&su=${encodeURIComponent("Portfolio Inquiry")}`;
-
+const typingLines = [
+  "React interfaces that feel smooth.",
+  "Node APIs built for real products.",
+  "Python models behind clean UIs.",
+];
 
 const sectionStagger = {
   hidden: { opacity: 0 },
@@ -245,6 +249,9 @@ const getInitialTheme = () => {
 
 const App = () => {
   const [theme, setTheme] = useState(getInitialTheme);
+  const [typedText, setTypedText] = useState("");
+  const [activeTypingIndex, setActiveTypingIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [projectList, setProjectList] = useState(projects);
   const [experienceList, setExperienceList] = useState(experience);
@@ -286,26 +293,7 @@ const App = () => {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    // Smooth scroll for clicked anchor links without fighting mouse wheel scroll physics
-    const handleAnchorClick = (e) => {
-      const anchor = e.target.closest('a[href^="#"]');
-      if (!anchor) return;
-      const targetId = anchor.getAttribute("href").slice(1);
-      if (!targetId) return;
-      const targetElem = document.getElementById(targetId);
-      if (targetElem) {
-        e.preventDefault();
-        targetElem.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", `#${targetId}`);
-      }
-    };
-
-    document.addEventListener("click", handleAnchorClick);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("click", handleAnchorClick);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -327,7 +315,30 @@ const App = () => {
     window.localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
+  useEffect(() => {
+    const currentLine = typingLines[activeTypingIndex];
+    let timeoutId;
 
+    if (!isDeleting && typedText === currentLine) {
+      timeoutId = window.setTimeout(() => {
+        setIsDeleting(true);
+      }, 1400);
+    } else if (isDeleting && typedText === "") {
+      timeoutId = window.setTimeout(() => {
+        setIsDeleting(false);
+        setActiveTypingIndex((prev) => (prev + 1) % typingLines.length);
+      }, 240);
+    } else {
+      timeoutId = window.setTimeout(() => {
+        const nextLength = typedText.length + (isDeleting ? -1 : 1);
+        setTypedText(currentLine.slice(0, nextLength));
+      }, isDeleting ? 48 : 88);
+    }
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeTypingIndex, isDeleting, typedText]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
@@ -347,6 +358,7 @@ const App = () => {
 
           <main>
             <Hero
+              typedText={typedText}
               motionEase={motionEase}
               githubUrl={githubUrl}
               linkedinUrl={linkedinUrl}
