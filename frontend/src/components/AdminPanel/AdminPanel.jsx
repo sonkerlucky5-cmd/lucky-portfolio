@@ -269,7 +269,7 @@ const AdminPanel = ({ isOpen, onClose, onRefreshProjects, onRefreshProfile }) =>
   if (!isOpen) return null;
 
   return (
-    <div className="admin-overlay" role="dialog" aria-modal="true">
+    <div className="admin-overlay" role="dialog" aria-modal="true" aria-label="Admin Control Panel">
       {/* Toast Notification */}
       {successToast && (
         <div className="admin-toast">

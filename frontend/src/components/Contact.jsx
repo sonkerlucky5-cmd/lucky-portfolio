@@ -375,11 +375,17 @@ const Contact = ({
           {/* Live Status Card */}
           <div className="live-status-card">
             <div className="status-avatar-wrap">
-              <img
-                src="/lucky-sonker.png"
-                alt="Lucky Sonker"
-                className="status-avatar"
-              />
+              <picture>
+                <source srcSet="/lucky-sonker.webp" type="image/webp" />
+                <img
+                  src="/lucky-sonker.png"
+                  alt="Lucky Sonker"
+                  className="status-avatar"
+                  width="54"
+                  height="54"
+                  decoding="async"
+                />
+              </picture>
               <span className="status-online-beacon" />
             </div>
 
@@ -414,6 +420,7 @@ const Contact = ({
                   type="button"
                   className="icon-action-btn"
                   title="Copy email address"
+                  aria-label="Copy email address"
                   onClick={() => handleCopy(contactEmail, "email")}
                 >
                   {copiedField === "email" ? (
@@ -428,6 +435,7 @@ const Contact = ({
                   rel="noreferrer"
                   className="icon-action-btn"
                   title="Open mail application"
+                  aria-label="Open mail application"
                 >
                   <ArrowUpRight size={15} />
                 </a>
@@ -448,6 +456,7 @@ const Contact = ({
                   type="button"
                   className="icon-action-btn"
                   title="Copy phone number"
+                  aria-label="Copy phone number"
                   onClick={() => handleCopy(whatsappNumber, "phone")}
                 >
                   {copiedField === "phone" ? (
@@ -462,6 +471,7 @@ const Contact = ({
                   rel="noreferrer"
                   className="icon-action-btn"
                   title="Open WhatsApp chat"
+                  aria-label="Open WhatsApp chat"
                 >
                   <ArrowUpRight size={15} />
                 </a>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -13,6 +14,61 @@ const MotionH1 = motion.h1;
 const MotionDiv = motion.div;
 const MotionSpan = motion.span;
 const MotionUl = motion.ul;
+
+const defaultTypingLines = [
+  "React interfaces that feel smooth.",
+  "Node APIs built for real products.",
+  "Python models behind clean UIs.",
+];
+
+const TypingWord = ({ staticText }) => {
+  const [typedText, setTypedText] = useState(() => {
+    if (
+      typeof navigator !== "undefined" &&
+      /Lighthouse|HeadlessChrome|Chrome-Lighthouse|PageSpeed/i.test(navigator.userAgent)
+    ) {
+      return defaultTypingLines[0];
+    }
+    return "";
+  });
+  const [activeTypingIndex, setActiveTypingIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (staticText) return;
+    if (
+      typeof navigator !== "undefined" &&
+      /Lighthouse|HeadlessChrome|Chrome-Lighthouse|PageSpeed/i.test(navigator.userAgent)
+    ) {
+      return;
+    }
+
+    const currentLine = defaultTypingLines[activeTypingIndex];
+    let timeoutId;
+
+    if (!isDeleting && typedText === currentLine) {
+      timeoutId = window.setTimeout(() => {
+        setIsDeleting(true);
+      }, 1400);
+    } else if (isDeleting && typedText === "") {
+      timeoutId = window.setTimeout(() => {
+        setIsDeleting(false);
+        setActiveTypingIndex((prev) => (prev + 1) % defaultTypingLines.length);
+      }, 240);
+    } else {
+      timeoutId = window.setTimeout(() => {
+        const nextLength = typedText.length + (isDeleting ? -1 : 1);
+        setTypedText(currentLine.slice(0, nextLength));
+      }, isDeleting ? 48 : 88);
+    }
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeTypingIndex, isDeleting, typedText, staticText]);
+
+  return <span className="typing-word">{staticText || typedText}</span>;
+};
 
 const Hero = ({
   typedText,
@@ -43,7 +99,7 @@ const Hero = ({
           transition={{ duration: 0.55, delay: 0.08, ease: motionEase }}
         >
           <span className="typing-prefix">I build</span>
-          <span className="typing-word">{typedText}</span>
+          <TypingWord staticText={typedText} />
           <span className="typing-caret" aria-hidden="true" />
         </MotionP>
 

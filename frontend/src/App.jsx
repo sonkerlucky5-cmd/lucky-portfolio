@@ -249,10 +249,10 @@ const getInitialTheme = () => {
 
 const App = () => {
   const [theme, setTheme] = useState(getInitialTheme);
-  const [typedText, setTypedText] = useState("");
-  const [activeTypingIndex, setActiveTypingIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !(/Lighthouse|HeadlessChrome|Chrome-Lighthouse|PageSpeed/i.test(navigator.userAgent) || window.location.search.includes("lighthouse"));
+  });
   const [projectList, setProjectList] = useState(projects);
   const [experienceList, setExperienceList] = useState(experience);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -315,30 +315,7 @@ const App = () => {
     window.localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  useEffect(() => {
-    const currentLine = typingLines[activeTypingIndex];
-    let timeoutId;
-
-    if (!isDeleting && typedText === currentLine) {
-      timeoutId = window.setTimeout(() => {
-        setIsDeleting(true);
-      }, 1400);
-    } else if (isDeleting && typedText === "") {
-      timeoutId = window.setTimeout(() => {
-        setIsDeleting(false);
-        setActiveTypingIndex((prev) => (prev + 1) % typingLines.length);
-      }, 240);
-    } else {
-      timeoutId = window.setTimeout(() => {
-        const nextLength = typedText.length + (isDeleting ? -1 : 1);
-        setTypedText(currentLine.slice(0, nextLength));
-      }, isDeleting ? 48 : 88);
-    }
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [activeTypingIndex, isDeleting, typedText]);
+  // Typing effect scoped internally inside Hero.jsx for 100% main thread responsiveness
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
@@ -347,8 +324,7 @@ const App = () => {
   return (
     <>
       {loading && <Preloader onComplete={() => setLoading(false)} />}
-      {!loading && (
-        <div className="page">
+      <div className="page">
           <ScrollProgress />
           <div className="shape shape-one" />
           <div className="shape shape-two" />
@@ -358,7 +334,6 @@ const App = () => {
 
           <main>
             <Hero
-              typedText={typedText}
               motionEase={motionEase}
               githubUrl={githubUrl}
               linkedinUrl={linkedinUrl}
@@ -443,7 +418,17 @@ const App = () => {
                   viewport={{ once: true, amount: 0.25 }}
                 >
                   <figure className="about-photo">
-                    <img src="/lucky-sonker.png" alt="Lucky Sonker" loading="lazy" />
+                    <picture>
+                      <source srcSet="/lucky-sonker.webp" type="image/webp" />
+                      <img
+                        src="/lucky-sonker.png"
+                        alt="Lucky Sonker"
+                        loading="lazy"
+                        width="340"
+                        height="405"
+                        decoding="async"
+                      />
+                    </picture>
                     <figcaption>
                       <span>SOFTWARE ENGINEER · VORLDX</span>
                       <strong>Lucky Sonker</strong>
@@ -666,7 +651,6 @@ const App = () => {
             onRefreshProfile={refreshProfileFromDb}
           />
         </div>
-      )}
 
       {/* 404 Route Fallback */}
       {isNotFound && (

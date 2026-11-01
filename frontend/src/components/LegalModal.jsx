@@ -25,7 +25,7 @@ const LegalModal = ({ isOpen, initialTab = "privacy", onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="legal-modal-backdrop" role="dialog" aria-modal="true">
+    <div className="legal-modal-backdrop" role="dialog" aria-modal="true" aria-label="Legal terms and privacy policies">
       <div className="legal-modal-card">
         {/* Header */}
         <div className="legal-modal-header">

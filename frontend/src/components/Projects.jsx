@@ -123,6 +123,7 @@ const Projects = ({ projects, motionEase }) => {
                       target="_blank"
                       rel="noreferrer"
                       className="project-btn project-btn-outline"
+                      aria-label={`View ${project.title} source code on GitHub`}
                     >
                       <Github size={14} />
                       <span>Code</span>
@@ -134,6 +135,7 @@ const Projects = ({ projects, motionEase }) => {
                       target="_blank"
                       rel="noreferrer"
                       className="project-btn project-btn-primary"
+                      aria-label={`Visit live demo for ${project.title}`}
                     >
                       <span>Live Site</span>
                       <ArrowUpRight size={14} />
@@ -144,6 +146,7 @@ const Projects = ({ projects, motionEase }) => {
                       target="_blank"
                       rel="noreferrer"
                       className="project-btn project-btn-primary"
+                      aria-label={`View repository for ${project.title}`}
                     >
                       <span>View Repo</span>
                       <ExternalLink size={14} />

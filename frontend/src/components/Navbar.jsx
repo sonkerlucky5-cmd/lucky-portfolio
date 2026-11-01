@@ -50,6 +50,7 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
           src="/logo.png"
           alt="Portfolio"
           className="brand-logo"
+          decoding="async"
           width="36"
           height="36"
         />
