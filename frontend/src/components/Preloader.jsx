@@ -43,7 +43,7 @@ const Preloader = ({ onComplete }) => {
             />
             <div className="preloader-brand-text">
               <span className="preloader-name">LUCKY SONKER</span>
-              <span className="preloader-sub">SOFTWARE ENGINEER</span>
+              <span className="preloader-sub">PORTFOLIO</span>
             </div>
           </div>
         </div>

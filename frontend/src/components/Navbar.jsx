@@ -55,7 +55,7 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
         />
         <span className="brand-text">
           <strong>Lucky Sonker</strong>
-          <small>Software Engineer</small>
+          <small>Portfolio</small>
         </span>
       </a>
 

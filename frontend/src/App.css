@@ -200,8 +200,7 @@ a {
 .brand-logo {
   width: 36px;
   height: 36px;
-  border-radius: 10px;
-  object-fit: cover;
+  object-fit: contain;
   box-shadow: 0 4px 14px var(--ring);
   flex-shrink: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -216,8 +215,7 @@ a {
 .preloader-mark-img {
   width: 52px;
   height: 52px;
-  border-radius: 14px;
-  object-fit: cover;
+  object-fit: contain;
   box-shadow: 0 10px 30px rgba(240, 120, 69, 0.35);
   animation: preloaderPulse 2.4s ease-in-out infinite;
 }
