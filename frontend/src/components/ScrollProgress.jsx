@@ -5,15 +5,21 @@ const ScrollProgress = () => {
 
   useEffect(() => {
     let frame = 0;
+    let maxScroll = 1;
+
+    // Cache the max scroll calculation so we don't cause layout thrashing on every scroll event
+    const measure = () => {
+      const doc = document.documentElement;
+      maxScroll = Math.max(doc.scrollHeight - doc.clientHeight, 1);
+    };
 
     const update = () => {
       frame = 0;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      const progress = max > 0 ? doc.scrollTop / max : 0;
+      const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
 
       if (barRef.current) {
-        barRef.current.style.transform = `scaleX(${progress})`;
+        barRef.current.style.transform = `scaleX(${progress}) translateZ(0)`;
       }
     };
 
@@ -23,16 +29,20 @@ const ScrollProgress = () => {
       }
     };
 
+    measure();
     update();
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", () => {
+      measure();
+      onScroll();
+    }, { passive: true });
 
     return () => {
       if (frame) {
         window.cancelAnimationFrame(frame);
       }
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
