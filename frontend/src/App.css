@@ -197,6 +197,42 @@ a {
   flex-shrink: 0;
 }
 
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 14px var(--ring);
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: block;
+}
+
+.brand:hover .brand-logo {
+  transform: scale(1.06) rotate(-2deg);
+  box-shadow: 0 6px 18px var(--ring);
+}
+
+.preloader-mark-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(240, 120, 69, 0.35);
+  animation: preloaderPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes preloaderPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(240, 120, 69, 0.35);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 14px 40px rgba(45, 212, 191, 0.45);
+  }
+}
+
 .brand-text {
   display: grid;
   line-height: 1.15;
@@ -334,22 +370,30 @@ section[id] {
 .theme-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--control-border);
   background: var(--control-bg);
   color: var(--text);
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 0.5rem 0.75rem;
+  padding: 0;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
   transform: translateY(-2px);
-  border-color: var(--accent-deep);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.nav-mobile-actions .theme-toggle {
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.85rem;
+  gap: 0.45rem;
 }
 
 .section {

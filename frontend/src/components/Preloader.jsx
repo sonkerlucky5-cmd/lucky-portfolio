@@ -34,7 +34,13 @@ const Preloader = ({ onComplete }) => {
       <div className="preloader-content">
         <div className="preloader-top">
           <div className="preloader-brand">
-            <span className="preloader-mark">LS</span>
+            <img
+              src="/logo.png"
+              alt="Lucky Sonker"
+              className="preloader-mark-img"
+              width="50"
+              height="50"
+            />
             <div className="preloader-brand-text">
               <span className="preloader-name">LUCKY SONKER</span>
               <span className="preloader-sub">SOFTWARE ENGINEER</span>

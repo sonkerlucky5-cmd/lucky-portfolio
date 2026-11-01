@@ -46,9 +46,13 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
   return (
     <header className="topbar">
       <a href="#home" className="brand" onClick={closeMenu}>
-        <span className="brand-mark" aria-hidden="true">
-          LS
-        </span>
+        <img
+          src="/logo.png"
+          alt="Lucky Sonker"
+          className="brand-logo"
+          width="36"
+          height="36"
+        />
         <span className="brand-text">
           <strong>Lucky Sonker</strong>
           <small>Software Engineer</small>
@@ -79,8 +83,7 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
           title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
         >
-          {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
-          <span>{theme === "dark" ? "Light" : "Dark"}</span>
+          {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
         </button>
 
         <a href="#contact" className="btn btn-small">
