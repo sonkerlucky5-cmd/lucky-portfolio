@@ -2356,7 +2356,7 @@ p {
 
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .theme-toggle span {
     display: none;
   }
@@ -2489,6 +2489,552 @@ p {
     justify-content: flex-start;
   }
 }
+
+@media (max-width: 480px) {
+  .page {
+    padding: 0.85rem clamp(0.65rem, 3.2vw, 1.2rem) 0;
+  }
+
+  .topbar {
+    top: 4px;
+    padding: 0.5rem 0.65rem;
+    gap: 0.45rem;
+    border-radius: 14px;
+  }
+
+  .brand {
+    gap: 0.45rem;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-text strong {
+    font-size: 0.85rem;
+  }
+
+  .nav-actions {
+    gap: 0.4rem;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .nav-menu-btn {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .nav-mobile {
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    gap: 0.6rem;
+  }
+
+  .hero {
+    padding-top: 1.2rem;
+    gap: 1.2rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 7.5vw, 2.5rem);
+    line-height: 1.1;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .hero-text {
+    font-size: 0.94rem;
+    line-height: 1.62;
+    margin: 0.8rem 0 1.2rem;
+  }
+
+  .hero-typing {
+    min-height: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .typing-word {
+    min-width: 11ch;
+  }
+
+  .hero-actions {
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+    width: 100%;
+    padding-top: 0.75rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .hero-stats li {
+    padding: 0 0.35rem;
+    border-left: 1px solid var(--footer-border);
+    text-align: center;
+  }
+
+  .hero-stats li:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .hero-stats strong {
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
+  .hero-stats span {
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  .hero-panel {
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+  }
+
+  .hero-visual {
+    min-height: 142px;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-visual-core {
+    width: 110px;
+    height: 110px;
+  }
+
+  .hero-visual-core strong {
+    font-size: 0.86rem;
+  }
+
+  .hero-badge {
+    font-size: 0.66rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .hero-badge-1 {
+    top: 0;
+    right: 2%;
+  }
+
+  .hero-badge-2 {
+    left: 1%;
+    bottom: 12px;
+  }
+
+  .hero-badge-3 {
+    right: 1%;
+    bottom: 0;
+  }
+
+  .hero-panel h3 {
+    font-size: 1.05rem;
+  }
+
+  .hero-panel li {
+    font-size: 0.88rem;
+  }
+
+  .about-copy h2 {
+    font-size: clamp(1.6rem, 6.2vw, 2.1rem);
+    line-height: 1.15;
+  }
+
+  .about-photo-wrap {
+    width: min(100%, 280px);
+  }
+
+  .about-photo {
+    border-radius: 18px;
+    padding: 7px;
+  }
+
+  .about-photo figcaption strong {
+    font-size: 0.98rem;
+  }
+
+  .about-card {
+    padding: 0.9rem;
+    border-radius: 14px;
+  }
+
+  .about-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .about-card p {
+    font-size: 0.86rem;
+  }
+
+  .about-actions {
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .about-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .about-credentials {
+    gap: 0.75rem;
+  }
+
+  .timeline-body {
+    padding: 0.85rem 0.9rem;
+    border-radius: 15px;
+  }
+
+  .timeline-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .timeline-top h3 {
+    font-size: 0.98rem;
+  }
+
+  .timeline-summary {
+    font-size: 0.88rem;
+  }
+
+  .timeline-points li {
+    font-size: 0.84rem;
+  }
+
+  .project-card {
+    border-radius: 18px;
+  }
+
+  .project-preview-bar {
+    padding: 0.55rem 0.75rem;
+  }
+
+  .project-preview-url {
+    max-width: 140px;
+    font-size: 0.64rem;
+  }
+
+  .project-preview-body {
+    height: 110px;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .project-preview-image {
+    height: 110px;
+  }
+
+  .project-body {
+    padding: 1rem 1rem 1.15rem;
+  }
+
+  .project-head h3 {
+    font-size: 1.02rem;
+  }
+
+  .project-desc {
+    min-height: auto;
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .project-points li {
+    font-size: 0.8rem;
+  }
+
+  .project-links {
+    gap: 0.5rem;
+  }
+
+  .project-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .contact-section-premium {
+    padding: 2.8rem 0 2rem;
+  }
+
+  .contact-header {
+    margin-bottom: 1.8rem;
+  }
+
+  .contact-title {
+    font-size: clamp(1.65rem, 6.5vw, 2.2rem);
+  }
+
+  .contact-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .contact-card-box {
+    padding: 1.15rem 1rem;
+    border-radius: 18px;
+  }
+
+  .intent-pills {
+    gap: 0.4rem;
+  }
+
+  .intent-pill {
+    padding: 0.38rem 0.65rem;
+    font-size: 0.78rem;
+    border-radius: 10px;
+  }
+
+  .form-footer-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .submit-btn-cool {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .security-guarantee {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .live-status-card {
+    padding: 0.85rem 0.95rem;
+    gap: 0.75rem;
+    border-radius: 15px;
+  }
+
+  .status-avatar-wrap {
+    width: 46px;
+    height: 46px;
+  }
+
+  .status-name {
+    font-size: 0.98rem;
+  }
+
+  .contact-tile {
+    padding: 0.65rem 0.8rem;
+    gap: 0.65rem;
+    border-radius: 14px;
+  }
+
+  .tile-icon-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  .tile-text strong {
+    font-size: 0.82rem;
+  }
+
+  .sidebar-resume-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.95rem;
+    border-radius: 15px;
+  }
+
+  .resume-download-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .legal-modal-backdrop {
+    padding: 0.65rem;
+  }
+
+  .legal-modal-card {
+    max-height: 94vh;
+    border-radius: 18px;
+  }
+
+  .legal-modal-header {
+    padding: 0.8rem 1rem;
+  }
+
+  .legal-tab-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .legal-modal-body {
+    padding: 1.1rem 1rem;
+  }
+
+  .legal-doc h2 {
+    font-size: 1.3rem;
+  }
+
+  .cookie-consent-bar {
+    width: min(95%, 760px);
+    bottom: 0.75rem;
+    padding: 0.8rem 0.95rem;
+    border-radius: 16px;
+  }
+
+  .cookie-consent-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .cookie-consent-text {
+    font-size: 0.78rem;
+    min-width: 0;
+  }
+
+  .cookie-consent-actions {
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .cookie-btn-decline,
+  .cookie-btn-accept {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .footer {
+    padding: 1.2rem 0 2.2rem;
+    gap: 1rem;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .footer-links a {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+  }
+
+  .footer-brand-sub {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .page {
+    padding: 0.75rem 0.5rem 0;
+  }
+
+  .topbar {
+    padding: 0.45rem 0.55rem;
+    gap: 0.35rem;
+  }
+
+  .brand {
+    gap: 0.35rem;
+  }
+
+  .brand-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-text strong {
+    font-size: 0.8rem;
+  }
+
+  .nav-actions {
+    gap: 0.3rem;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .nav-menu-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .hero h1 {
+    font-size: 1.65rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    text-align: left;
+  }
+
+  .hero-stats li {
+    border-left: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .hero-visual-core {
+    width: 96px;
+    height: 96px;
+  }
+
+  .hero-badge {
+    font-size: 0.62rem;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .about-photo-wrap {
+    width: min(100%, 240px);
+  }
+
+  .project-preview-url {
+    max-width: 105px;
+  }
+
+  .project-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .project-btn {
+    width: 100%;
+  }
+
+  .contact-card-box {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .status-location-time {
+    flex-wrap: wrap;
+  }
+
+  .tile-text strong {
+    font-size: 0.78rem;
+  }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .about-photo-wrap {
