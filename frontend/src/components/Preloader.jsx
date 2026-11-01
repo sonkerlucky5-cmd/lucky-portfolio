@@ -42,8 +42,8 @@ const Preloader = ({ onComplete }) => {
               height="50"
             />
             <div className="preloader-brand-text">
-              <span className="preloader-name">LUCKY SONKER</span>
-              <span className="preloader-sub">PORTFOLIO</span>
+              <span className="preloader-name">PORTFOLIO</span>
+              <span className="preloader-sub">LUCKY SONKER</span>
             </div>
           </div>
         </div>

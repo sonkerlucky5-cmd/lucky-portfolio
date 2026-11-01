@@ -48,14 +48,13 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
       <a href="#home" className="brand" onClick={closeMenu}>
         <img
           src="/logo.png"
-          alt="Lucky Sonker"
+          alt="Portfolio"
           className="brand-logo"
           width="36"
           height="36"
         />
         <span className="brand-text">
-          <strong>Lucky Sonker</strong>
-          <small>Portfolio</small>
+          <strong>Portfolio</strong>
         </span>
       </a>
 
