@@ -376,7 +376,7 @@ const Contact = ({
           <div className="live-status-card">
             <div className="status-avatar-wrap">
               <img
-                src="/lucky%20sonker.png"
+                src="/lucky-sonker.png"
                 alt="Lucky Sonker"
                 className="status-avatar"
               />

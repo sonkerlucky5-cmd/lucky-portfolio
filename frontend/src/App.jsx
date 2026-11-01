@@ -443,7 +443,7 @@ const App = () => {
                   viewport={{ once: true, amount: 0.25 }}
                 >
                   <figure className="about-photo">
-                    <img src="/lucky%20sonker.png" alt="Lucky Sonker" loading="lazy" />
+                    <img src="/lucky-sonker.png" alt="Lucky Sonker" loading="lazy" />
                     <figcaption>
                       <span>SOFTWARE ENGINEER · VORLDX</span>
                       <strong>Lucky Sonker</strong>
