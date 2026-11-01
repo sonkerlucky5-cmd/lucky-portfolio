@@ -2794,6 +2794,10 @@ p {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .card-box-header {
@@ -3274,6 +3278,10 @@ p {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .tile-text strong {
@@ -3362,6 +3370,304 @@ p {
   font-size: 0.8rem;
   padding: 0.5rem 0.95rem;
   white-space: nowrap;
+}
+
+
+
+/* ------------------------------------------------------------
+   Contact Section Ultra-Crisp Mobile Responsiveness
+   Fixes card cutoff and horizontal overflow on mobile screens
+   ------------------------------------------------------------ */
+@media (max-width: 960px) {
+  .contact-premium-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.8rem;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-section-premium {
+    padding: 3.5rem 0 2.2rem;
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  .contact-card-box {
+    padding: 1.25rem 1.05rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .card-box-header {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+
+  .card-box-title {
+    min-width: 0;
+  }
+
+  .card-box-title h3 {
+    font-size: 1.08rem;
+  }
+
+  .card-box-tag {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    align-self: flex-start;
+  }
+
+  .intent-pills {
+    gap: 0.45rem;
+  }
+
+  .intent-pill {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .live-status-card {
+    padding: 0.95rem;
+    gap: 0.8rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .status-avatar-wrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .status-name {
+    font-size: 1rem;
+  }
+
+  .contact-tile {
+    padding: 0.72rem 0.85rem;
+    gap: 0.65rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .tile-icon-box {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tile-text strong {
+    font-size: 0.84rem;
+  }
+
+  .sidebar-resume-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .resume-download-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-section-premium {
+    padding: 2.8rem 0 1.8rem;
+  }
+
+  .contact-header {
+    margin-bottom: 1.8rem;
+  }
+
+  .contact-title {
+    font-size: clamp(1.6rem, 6.2vw, 2.1rem);
+  }
+
+  .contact-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .contact-card-box {
+    padding: 1.1rem 0.9rem;
+    border-radius: 18px;
+  }
+
+  .card-box-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+    padding-bottom: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-box-title h3 {
+    font-size: 0.98rem;
+  }
+
+  .card-box-tag {
+    font-size: 0.65rem;
+    padding: 0.18rem 0.45rem;
+  }
+
+  .intent-pills {
+    gap: 0.38rem;
+  }
+
+  .intent-pill {
+    padding: 0.36rem 0.62rem;
+    font-size: 0.76rem;
+    border-radius: 10px;
+  }
+
+  .pill-emoji {
+    font-size: 0.82rem;
+  }
+
+  .form-footer-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .submit-btn-cool {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .security-guarantee {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .live-status-card {
+    padding: 0.8rem 0.85rem;
+    gap: 0.7rem;
+    border-radius: 15px;
+  }
+
+  .status-avatar-wrap {
+    width: 44px;
+    height: 44px;
+  }
+
+  .status-info-col {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .status-name {
+    font-size: 0.95rem;
+  }
+
+  .status-role {
+    font-size: 0.64rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status-location-time {
+    font-size: 0.72rem;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .quick-contact-tiles {
+    min-width: 0;
+    max-width: 100%;
+    gap: 0.55rem;
+  }
+
+  .contact-tile {
+    padding: 0.62rem 0.72rem;
+    gap: 0.55rem;
+    border-radius: 13px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tile-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  .tile-text {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .tile-text small {
+    font-size: 0.56rem;
+    letter-spacing: 0.05em;
+  }
+
+  .tile-text strong {
+    font-size: 0.78rem;
+  }
+
+  .tile-actions {
+    gap: 0.22rem;
+    flex-shrink: 0;
+  }
+
+  .tile-arrow {
+    flex-shrink: 0;
+  }
+
+  .icon-action-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 8px;
+  }
+
+  .sidebar-resume-banner {
+    padding: 0.85rem;
+    border-radius: 14px;
+  }
+
+  .success-meta-bar {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .contact-card-box {
+    padding: 0.95rem 0.72rem;
+  }
+
+  .contact-tile {
+    padding: 0.52rem 0.62rem;
+    gap: 0.42rem;
+  }
+
+  .tile-icon-box {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tile-text strong {
+    font-size: 0.74rem;
+  }
+
+  .icon-action-btn {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+  }
 }
 
 
