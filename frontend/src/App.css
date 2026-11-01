@@ -66,8 +66,14 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   overscroll-behavior-y: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -825,7 +831,6 @@ p {
   width: min(100%, 350px);
   justify-self: end;
   perspective: 900px;
-  animation: aboutFloat 6s ease-in-out infinite;
 }
 
 .about-photo {
@@ -836,7 +841,8 @@ p {
   border-radius: 22px;
   background: var(--surface-strong);
   box-shadow: var(--shadow);
-  transform: rotateY(-5deg);
+  animation: aboutFloat 6s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 .about-photo img {
@@ -1399,9 +1405,10 @@ p {
     rgba(255, 255, 255, 0.14),
     transparent
   );
-  transform: rotate(18deg);
+  transform: rotate(18deg) translateZ(0);
   animation: sheen 7s ease-in-out infinite;
   pointer-events: none;
+  will-change: transform;
 }
 
 /* macOS Browser Preview Bar */
