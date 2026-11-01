@@ -59,7 +59,7 @@ const experience = [
   {
     role: "Software Engineer",
     company: "VorldX Industries Pvt. Ltd. · Lucknow",
-    period: "Jun 2026 — Present",
+    period: "Jun 2026 — Nov 2026",
     status: "current",
     summary:
       "Building responsive, scalable web applications with the MERN stack, from data model to interface.",
