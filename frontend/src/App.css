@@ -67,7 +67,6 @@
 
 html {
   background-color: var(--bg);
-  color-scheme: dark light;
   scroll-behavior: smooth;
   overscroll-behavior-y: none;
 }
@@ -76,19 +75,12 @@ body {
   margin: 0;
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
   color: var(--text);
-  background-color: var(--bg);
   background:
     radial-gradient(circle at 10% 10%, var(--bg-orb-one) 0%, transparent 35%),
     radial-gradient(circle at 88% 16%, var(--bg-orb-two) 0%, transparent 34%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 40%, var(--bg-bottom) 100%);
-  background-color: var(--bg);
   overflow-x: hidden;
   overscroll-behavior-y: none;
-}
-
-#root {
-  background-color: var(--bg);
-  min-height: 100vh;
 }
 
 a {
@@ -102,7 +94,6 @@ a {
   isolation: isolate;
   overflow-x: clip;
   padding: 1.1rem clamp(1rem, 3vw, 2.7rem) 0;
-  background-color: var(--bg);
 }
 
 .shape {
@@ -2722,7 +2713,7 @@ p {
   margin: 0 0 1rem;
 }
 
-.gradient-text {
+.contact-header .gradient-text {
   background: linear-gradient(120deg, var(--accent) 0%, #ff8342 55%, var(--accent-alt) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
