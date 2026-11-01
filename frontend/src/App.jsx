@@ -251,7 +251,6 @@ const App = () => {
   const [theme, setTheme] = useState(getInitialTheme);
   const [loading, setLoading] = useState(() => {
     if (typeof window === "undefined") return false;
-    if (window.location.hash || sessionStorage.getItem("portfolio_loaded")) return false;
     return !(/Lighthouse|HeadlessChrome|Chrome-Lighthouse|PageSpeed/i.test(navigator.userAgent) || window.location.search.includes("lighthouse"));
   });
   const [projectList, setProjectList] = useState(projects);
@@ -298,17 +297,17 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // Non-critical background sync: defer so it never delays initial paint, FCP or LCP
-    const timer = setTimeout(() => {
-      const consent = localStorage.getItem("portfolio_cookie_consent");
-      if (consent !== "denied") {
-        recordVisit();
-      }
-      refreshProjectsFromDb();
-      refreshProfileFromDb();
-    }, 2500);
+    // Privacy-respecting: Only record visit if not explicitly denied
+    const consent = localStorage.getItem("portfolio_cookie_consent");
+    if (consent !== "denied") {
+      recordVisit();
+    }
 
-    return () => clearTimeout(timer);
+    // Dynamically load projects from PostgreSQL API
+    refreshProjectsFromDb();
+
+    // Dynamically load full website content from PostgreSQL API
+    refreshProfileFromDb();
   }, []);
 
   useEffect(() => {
