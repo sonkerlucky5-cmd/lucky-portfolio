@@ -622,7 +622,6 @@ const App = () => {
             twitterUrl={twitterUrl}
             whatsappUrl={whatsappUrl}
             mailtoUrl={mailtoUrl}
-            onOpenAdmin={() => setIsAdminOpen(true)}
             onOpenLegal={(tab) => setLegalModal({ isOpen: true, tab })}
           />
 

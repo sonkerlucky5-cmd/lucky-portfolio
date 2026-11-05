@@ -1,4 +1,4 @@
-import { ArrowUp, Github, Linkedin, Lock, Mail } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
 import { WhatsAppIcon, XIcon } from "./BrandIcons";
 
 const Footer = ({
@@ -7,7 +7,6 @@ const Footer = ({
   twitterUrl,
   whatsappUrl,
   mailtoUrl,
-  onOpenAdmin,
   onOpenLegal,
 }) => {
   const year = new Date().getFullYear();
@@ -38,19 +37,7 @@ const Footer = ({
                 >
                   Terms &amp; Conditions
                 </button>
-                <span className="dot-sep">•</span>
               </>
-            )}
-            {onOpenAdmin && (
-              <button
-                type="button"
-                onClick={onOpenAdmin}
-                className="footer-admin-link"
-                title="Open PostgreSQL Admin Portal (Shortcut: Ctrl + Shift + A)"
-              >
-                <Lock size={11} />
-                <span>Admin Portal</span>
-              </button>
             )}
           </div>
         </div>
