@@ -2,8 +2,34 @@ import { useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 
 const Navbar = ({ navItems, theme, onToggleTheme }) => {
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+      if (path && path !== "admin") return path;
+    }
+    return "home";
+  });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const handleNavClick = (e, target) => {
+    e.preventDefault();
+    closeMenu();
+    const cleanTarget = target.toLowerCase();
+    const newPath = cleanTarget === "home" ? "/" : `/${cleanTarget}`;
+    window.history.pushState(null, "", newPath);
+    setActiveSection(cleanTarget);
+
+    if (cleanTarget === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const section = document.getElementById(cleanTarget);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   useEffect(() => {
     const sections = navItems
@@ -18,7 +44,16 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            const newSection = entry.target.id;
+            setActiveSection(newSection);
+
+            // Keep address bar in sync with active section without extra '#'
+            const currentPath = window.location.pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+            const targetPath = newSection === "home" ? "" : newSection;
+            if (currentPath !== targetPath && currentPath !== "admin") {
+              const newUrl = targetPath ? `/${targetPath}` : "/";
+              window.history.replaceState(null, "", newUrl);
+            }
           }
         });
       },
@@ -41,11 +76,9 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const closeMenu = () => setIsMenuOpen(false);
-
   return (
     <header className="topbar">
-      <a href="#home" className="brand" onClick={closeMenu}>
+      <a href="/" className="brand" onClick={(e) => handleNavClick(e, "home")}>
         <img
           src="/logo.png"
           alt="Portfolio"
@@ -62,12 +95,14 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
       <nav className="nav-links" aria-label="Sections">
         {navItems.map((item) => {
           const target = item.toLowerCase();
+          const routePath = target === "home" ? "/" : `/${target}`;
           return (
             <a
               key={item}
-              href={`#${target}`}
+              href={routePath}
               className={activeSection === target ? "active" : undefined}
               aria-current={activeSection === target ? "true" : undefined}
+              onClick={(e) => handleNavClick(e, target)}
             >
               {item}
             </a>
@@ -86,7 +121,11 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
           {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
         </button>
 
-        <a href="#contact" className="btn btn-small">
+        <a
+          href="/contact"
+          className="btn btn-small"
+          onClick={(e) => handleNavClick(e, "contact")}
+        >
           Let&apos;s talk
         </a>
 
@@ -105,13 +144,14 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
         <nav className="nav-mobile-links" aria-label="Mobile sections">
           {navItems.map((item) => {
             const target = item.toLowerCase();
+            const routePath = target === "home" ? "/" : `/${target}`;
             return (
               <a
                 key={item}
-                href={`#${target}`}
+                href={routePath}
                 className={activeSection === target ? "active" : undefined}
                 aria-current={activeSection === target ? "true" : undefined}
-                onClick={closeMenu}
+                onClick={(e) => handleNavClick(e, target)}
               >
                 {item}
               </a>
@@ -131,7 +171,11 @@ const Navbar = ({ navItems, theme, onToggleTheme }) => {
             {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
             <span>{theme === "dark" ? "Switch to Light" : "Switch to Dark"}</span>
           </button>
-          <a href="#contact" className="btn btn-primary" onClick={closeMenu}>
+          <a
+            href="/contact"
+            className="btn btn-primary"
+            onClick={(e) => handleNavClick(e, "contact")}
+          >
             Let&apos;s talk
           </a>
         </div>

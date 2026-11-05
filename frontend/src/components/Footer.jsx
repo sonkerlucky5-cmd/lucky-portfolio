@@ -69,7 +69,16 @@ const Footer = ({
         <a href={mailtoUrl} target="_blank" rel="noreferrer" aria-label="Email">
           <Mail size={16} />
         </a>
-        <a href="#home" className="footer-top" aria-label="Back to top">
+        <a
+          href="/"
+          className="footer-top"
+          aria-label="Back to top"
+          onClick={(e) => {
+            e.preventDefault();
+            window.history.pushState(null, "", "/");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           Top <ArrowUp size={15} />
         </a>
       </div>

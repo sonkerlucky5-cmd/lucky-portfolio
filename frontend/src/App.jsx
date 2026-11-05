@@ -276,24 +276,66 @@ const App = () => {
   };
 
   useEffect(() => {
-    const path = window.location.pathname;
-    // Check if directly navigating to /admin or #admin
-    if (path === "/admin" || window.location.hash === "#admin") {
-      setIsAdminOpen(true);
-    } else if (path !== "/" && !path.startsWith("/#") && path.length > 1) {
-      setIsNotFound(true);
+    // 1. Clean old hash (e.g. /#contact) to direct clean route (/contact)
+    if (window.location.hash) {
+      const hashTarget = window.location.hash.replace(/^#/, "").toLowerCase();
+      if (hashTarget === "admin") {
+        setIsAdminOpen(true);
+        window.history.replaceState(null, "", "/admin");
+      } else if (navItems.map((n) => n.toLowerCase()).includes(hashTarget)) {
+        const cleanRoute = hashTarget === "home" ? "/" : `/${hashTarget}`;
+        window.history.replaceState(null, "", cleanRoute);
+        setTimeout(() => {
+          const el = document.getElementById(hashTarget);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      }
     }
 
-    // Global shortcut: Ctrl + Shift + A to open Admin Panel
+    // 2. Direct clean path routing (/about, /contact, /projects, etc.)
+    const checkCurrentRoute = () => {
+      const cleanPath = window.location.pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+      const validSections = ["", "home", ...navItems.map((n) => n.toLowerCase())];
+
+      if (cleanPath === "admin") {
+        setIsAdminOpen(true);
+        setIsNotFound(false);
+      } else if (validSections.includes(cleanPath)) {
+        setIsAdminOpen(false);
+        setIsNotFound(false);
+        if (cleanPath && cleanPath !== "home") {
+          setTimeout(() => {
+            const el = document.getElementById(cleanPath);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }, 150);
+        }
+      } else {
+        setIsNotFound(true);
+      }
+    };
+
+    checkCurrentRoute();
+
+    // 3. Handle browser Back & Forward button navigation
+    window.addEventListener("popstate", checkCurrentRoute);
+
+    // 4. Global shortcut: Ctrl + Shift + A to toggle Admin Panel
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
         e.preventDefault();
-        setIsAdminOpen((prev) => !prev);
+        setIsAdminOpen((prev) => {
+          const next = !prev;
+          window.history.pushState(null, "", next ? "/admin" : "/");
+          return next;
+        });
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("popstate", checkCurrentRoute);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   useEffect(() => {
@@ -395,7 +437,16 @@ const App = () => {
                   </ul>
 
                   <div className="about-actions">
-                    <a className="btn btn-primary" href="#contact">
+                    <a
+                      className="btn btn-primary"
+                      href="/contact"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.history.pushState(null, "", "/contact");
+                        const sec = document.getElementById("contact");
+                        if (sec) sec.scrollIntoView({ behavior: "smooth" });
+                      }}
+                    >
                       Work with me <ArrowRight size={16} />
                     </a>
                     <a
@@ -639,12 +690,7 @@ const App = () => {
             isOpen={isAdminOpen}
             onClose={() => {
               setIsAdminOpen(false);
-              if (window.location.hash === "#admin") {
-                window.history.pushState(null, "", window.location.pathname);
-              }
-              if (window.location.pathname === "/admin") {
-                window.history.pushState(null, "", "/");
-              }
+              window.history.pushState(null, "", "/");
             }}
             onRefreshProjects={refreshProjectsFromDb}
             onRefreshProfile={refreshProfileFromDb}

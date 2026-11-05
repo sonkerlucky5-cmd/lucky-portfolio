@@ -129,7 +129,16 @@ const Hero = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.24, ease: motionEase }}
         >
-          <a href="#projects" className="btn btn-primary">
+          <a
+            href="/projects"
+            className="btn btn-primary"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState(null, "", "/projects");
+              const sec = document.getElementById("projects");
+              if (sec) sec.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
             View Projects <ArrowRight size={16} />
           </a>
           <a
