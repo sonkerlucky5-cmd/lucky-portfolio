@@ -50,23 +50,23 @@ const expertise = [
   },
   {
     icon: Server,
-    title: "Currently",
-    text: "Software Engineer at VorldX Industries, Lucknow.",
+    title: "Ex-SDE",
+    text: "Ex-SDE at VorldX Industries Private Limited (Jun 2026 — Oct 2026).",
   },
 ];
 
 const experience = [
   {
-    role: "Software Engineer",
-    company: "VorldX Industries Pvt. Ltd. · Lucknow",
-    period: "Jun 2026 — Nov 2026",
-    status: "current",
+    role: "Software Development Engineer (Ex-SDE)",
+    company: "VorldX Industries Private Limited · Lucknow",
+    period: "Jun 2026 — Oct 2026",
+    status: "past",
     summary:
-      "Building responsive, scalable web applications with the MERN stack, from data model to interface.",
+      "Built responsive, scalable web applications with the MERN stack, from data model to interface.",
     points: [
-      "Develop and maintain production features in React.js, Node.js, Express.js and MongoDB.",
-      "Build RESTful APIs and model MongoDB data for efficient reads and writes.",
-      "Work with the team on new features, performance tuning and bug fixes, with Git-based code reviews.",
+      "Developed and maintained production features in React.js, Node.js, Express.js and MongoDB.",
+      "Built RESTful APIs and modeled MongoDB data for efficient reads and writes.",
+      "Worked with the team on new features, performance tuning and bug fixes, with Git-based code reviews.",
     ],
   },
   {
@@ -400,8 +400,8 @@ const App = () => {
                     production.
                   </h2>
                   <p className="about-lead">
-                    I&apos;m Lucky Sonker, a Software Engineer at{" "}
-                    <strong>VorldX Industries</strong>. My day is React and Node.js —
+                    I&apos;m Lucky Sonker, a Full Stack Developer &amp; Ex-SDE at{" "}
+                    <strong>VorldX Industries Private Limited</strong>. My day is React and Node.js —
                     interfaces, REST APIs and MongoDB schemas — with Shopify builds and
                     Python analytics running alongside it.
                   </p>
@@ -481,7 +481,7 @@ const App = () => {
                       />
                     </picture>
                     <figcaption>
-                      <span>SOFTWARE ENGINEER · VORLDX</span>
+                      <span>EX-SDE · VORLDX INDUSTRIES</span>
                       <strong>Lucky Sonker</strong>
                       <small>
                         <MapPin size={12} aria-hidden="true" />

@@ -60,7 +60,7 @@ const AdminPanel = ({ isOpen, onClose, onRefreshProjects, onRefreshProfile }) =>
   const [profileForm, setProfileForm] = useState({
     name: "Lucky Sonker",
     title: "Software Engineer · MERN & AI/ML",
-    company: "VorldX Industries Pvt. Ltd.",
+    company: "VorldX Industries Private Limited (Ex-SDE)",
     location: "Lucknow, India",
     email: "sonkerlucky5@gmail.com",
     phone: "+91 93350 48020",

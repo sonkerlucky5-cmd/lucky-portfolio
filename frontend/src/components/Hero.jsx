@@ -223,8 +223,8 @@ const Hero = ({
             animate={{ scale: [1, 1.04, 1], opacity: [0.9, 1, 0.9] }}
             transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span>Currently</span>
-            <strong>Software Engineer</strong>
+            <span>Ex-SDE</span>
+            <strong>VorldX Industries</strong>
           </MotionDiv>
           {["React", "Python", "Node.js"].map((label, index) => (
             <MotionSpan
@@ -242,20 +242,19 @@ const Hero = ({
             </MotionSpan>
           ))}
         </div>
-        <p className="panel-eyebrow">RIGHT NOW</p>
+        <p className="panel-eyebrow">EXPERIENCE</p>
         <h3>
-          Shipping full-stack features at VorldX while going deeper into applied
-          AI and machine learning.
+          Ex-SDE at VorldX Industries Private Limited (Jun – Oct 2026) — built full-stack products, APIs, and applied AI systems.
         </h3>
         <ul>
           <li>
-            <span>01</span> Building product features in React and Node.js
+            <span>01</span> Built product features in React and Node.js
           </li>
           <li>
-            <span>02</span> Designing APIs, schemas and clean data flows
+            <span>02</span> Designed APIs, schemas and clean data flows
           </li>
           <li>
-            <span>03</span> Training and evaluating models in Python
+            <span>03</span> Trained and evaluated models in Python
           </li>
         </ul>
       </MotionDiv>

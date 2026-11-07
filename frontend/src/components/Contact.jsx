@@ -390,7 +390,7 @@ const Contact = ({
             </div>
 
             <div className="status-info-col">
-              <div className="status-role">Software Engineer · VorldX</div>
+              <div className="status-role">Ex-SDE · VorldX Industries Private Limited</div>
               <h4 className="status-name">Lucky Sonker</h4>
               <div className="status-location-time">
                 <span>
